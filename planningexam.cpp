@@ -1,34 +1,28 @@
 #include "planningexam.h"
-PlanningExam::PlanningExam()
+
+PlanningExam::PlanningExam(QObject *parent):QObject(parent)
 {
-    int vertexCounts;
-    cout<<"Please Enter Your Vretexes Number: ";
-    cin>>vertexCounts;
-    int entryTemp = 0 ;
-    int **connectionsArray=new int *[vertexCounts];
-    int colorNumbers = 0 ;
-    int DeltaG = 0 ;
-    string namesArray[vertexCounts];
-    int *colorsArray=new int [vertexCounts];
-    for (int i=0;i<vertexCounts;i++)
+
+
+    for (int i=0;i<verticesCountsCPP;i++)
         colorsArray[i]=-1;
-    int **isUsed=new int *[vertexCounts];
-    for (int i=0;i<vertexCounts;i++)
+    int **isUsed=new int *[verticesCountsCPP];
+    for (int i=0;i<verticesCountsCPP;i++)
     {
-        isUsed[i]=new int [vertexCounts];
+        isUsed[i]=new int [verticesCountsCPP];
     }
 
-    for (int i=0;i<vertexCounts;i++)
-        for(int j=0;j<vertexCounts;j++)
+    for (int i=0;i<verticesCountsCPP;i++)
+        for(int j=0;j<verticesCountsCPP;j++)
             isUsed[i][j]= -1;
 
-    for (int i=0;i<vertexCounts;i++)
+    for (int i=0;i<verticesCountsCPP;i++)
     {
-        connectionsArray[i]=new int [vertexCounts];
+        connectionsArray[i]=new int [verticesCountsCPP];
     }
 
-    for (int i=0;i<vertexCounts;i++)
-        for(int j=0;j<vertexCounts;j++)
+    for (int i=0;i<verticesCountsCPP;i++)
+        for(int j=0;j<verticesCountsCPP;j++)
         {
             if(i==j)
                 connectionsArray[i][j]=0;
@@ -36,26 +30,26 @@ PlanningExam::PlanningExam()
                 connectionsArray[i][j]=1;
         }
 
-    for(int i=0;i<vertexCounts;i++)
+    for(int i=0;i<verticesCountsCPP;i++)
         namesArray[i]= to_string(i +1);
 
-    for(int i=0;i<vertexCounts;i++)
+    for(int i=0;i<verticesCountsCPP;i++)
     {
         cout<<"enter Vertex "<<namesArray[i] <<" no connactions ( if is down enter 0 or somthing false !!!) : "<<endl;
 
-        for(int j=0;j<vertexCounts -1;j++)
+        for(int j=0;j<verticesCountsCPP -1;j++)
         {
             cin>>entryTemp;
-            if (entryTemp < 1 || entryTemp >vertexCounts)
+            if (entryTemp < 1 || entryTemp >verticesCountsCPP)
                 break;
             connectionsArray[i][entryTemp -1]=connectionsArray[entryTemp -1][i]=0;
         }
     }
 
-    for(int i=0;i<vertexCounts;i++)
+    for(int i=0;i<verticesCountsCPP;i++)
     {
 
-        for(int j=0;j<vertexCounts;j++)
+        for(int j=0;j<verticesCountsCPP;j++)
         {
             cout<<connectionsArray[i][j]<<"  ";
         }
@@ -67,10 +61,10 @@ PlanningExam::PlanningExam()
 
 
     //calculating DeltaG
-    for(int i=0,sum;i<vertexCounts;i++)
+    for(int i=0,sum;i<verticesCountsCPP;i++)
     {
         sum=0;
-        for( int j=0;j<vertexCounts;j++)
+        for( int j=0;j<verticesCountsCPP;j++)
             sum+=connectionsArray[i][j];
         if(sum>DeltaG)
             DeltaG=sum;
@@ -80,13 +74,13 @@ PlanningExam::PlanningExam()
 
     for ( int color=0;color< DeltaG + 1;color++)
     {
-        if(finished(colorsArray,vertexCounts))
+        if(finished(colorsArray,verticesCountsCPP))
             break;
         ColorVerticesList colorVerticesList;
-        for (int i=0;i<vertexCounts;i++)
+        for (int i=0;i<verticesCountsCPP;i++)
         {
             if(colorsArray[i] ==-1)
-                if(isPosible(i,colorsArray,color,vertexCounts,connectionsArray))
+                if(isPosible(i,colorsArray,color,verticesCountsCPP,connectionsArray))
                 {
                     colorVerticesList.AddItem(i);
                     colorsArray[i]=color;
@@ -105,6 +99,11 @@ PlanningExam::PlanningExam()
     std::cout << " Finished time"<<endl<< ctime(&result2) <<"diuration :"<<result2 - result1<<"second(s) ."<<endl;
 }
 
+int PlanningExam::verticesCount()
+{
+    return verticesCountsCPP;
+}
+
 bool PlanningExam::isPosible(int i,int *color,int col,int n,int **conary)
 {
     for (int j=0;j<n;j++)
@@ -120,4 +119,17 @@ bool PlanningExam::finished(int *color,int n)
         if (color[i] == -1)
             return false;
     return true;
+}
+
+void PlanningExam::setVerticesCount(int vertexCounts)
+{
+    verticesCountsCPP = vertexCounts;
+    connectionsArray=new int *[verticesCountsCPP];
+    for(int i ; i <verticesCountsCPP;i++)
+        connectionsArray[i]= new int [verticesCountsCPP];
+    colorsArray=new int [verticesCountsCPP];
+    namesArray = new string[verticesCountsCPP];
+
+    emit verticesCountChanged();
+
 }
