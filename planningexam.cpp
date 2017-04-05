@@ -33,18 +33,18 @@ PlanningExam::PlanningExam(QObject *parent):QObject(parent)
     for(int i=0;i<verticesCountsCPP;i++)
         namesArray[i]= to_string(i +1);
 
-    for(int i=0;i<verticesCountsCPP;i++)
-    {
-        cout<<"enter Vertex "<<namesArray[i] <<" no connactions ( if is down enter 0 or somthing false !!!) : "<<endl;
+//    for(int i=0;i<verticesCountsCPP;i++)
+//    {
+//        cout<<"enter Vertex "<<namesArray[i] <<" no connactions ( if is down enter 0 or somthing false !!!) : "<<endl;
 
-        for(int j=0;j<verticesCountsCPP -1;j++)
-        {
-            cin>>entryTemp;
-            if (entryTemp < 1 || entryTemp >verticesCountsCPP)
-                break;
-            connectionsArray[i][entryTemp -1]=connectionsArray[entryTemp -1][i]=0;
-        }
-    }
+//        for(int j=0;j<verticesCountsCPP -1;j++)
+//        {
+//            cin>>entryTemp;
+//            if (entryTemp < 1 || entryTemp >verticesCountsCPP)
+//                break;
+//            connectionsArray[i][entryTemp -1]=connectionsArray[entryTemp -1][i]=0;
+//        }
+//    }
 
     for(int i=0;i<verticesCountsCPP;i++)
     {
