@@ -55,48 +55,7 @@ PlanningExam::PlanningExam(QObject *parent):QObject(parent)
         }
         cout<<endl;
     }
-    // start time
-    std::time_t result1 = std::time(nullptr);
-    std::cout << " Start Time"<<endl << ctime(&result1);
 
-
-    //calculating DeltaG
-    for(int i=0,sum;i<verticesCountsCPP;i++)
-    {
-        sum=0;
-        for( int j=0;j<verticesCountsCPP;j++)
-            sum+=connectionsArray[i][j];
-        if(sum>DeltaG)
-            DeltaG=sum;
-    }
-
-    list <ColorVerticesList> colorList;
-
-    for ( int color=0;color< DeltaG + 1;color++)
-    {
-        if(finished(colorsArray,verticesCountsCPP))
-            break;
-        ColorVerticesList colorVerticesList;
-        for (int i=0;i<verticesCountsCPP;i++)
-        {
-            if(colorsArray[i] ==-1)
-                if(isPosible(i,colorsArray,color,verticesCountsCPP,connectionsArray))
-                {
-                    colorVerticesList.AddItem(i);
-                    colorsArray[i]=color;
-                }
-        }
-        cout<<"Item(s) of "<<color+1<<" color list is/are : "<<endl;
-        colorVerticesList.print(namesArray);
-        colorList.insert(colorList.end(),colorVerticesList);
-        colorNumbers=colorList.size();
-    }
-
-    cout<<" Used color numbers is : "<<colorNumbers<<endl;
-
-    // end time and printing diuration
-    std::time_t result2 = std::time(nullptr);
-    std::cout << " Finished time"<<endl<< ctime(&result2) <<"diuration :"<<result2 - result1<<"second(s) ."<<endl;
 }
 
 int PlanningExam::verticesCount()
@@ -132,4 +91,52 @@ void PlanningExam::setVerticesCount(int vertexCounts)
 
     emit verticesCountChanged();
 
+}
+
+void PlanningExam::createSuggestedPlan()
+{
+    /*When this function be finished color list Will be saved
+     * in colorList and every color contains some Vertices .
+     */
+    // start time
+    std::time_t result1 = std::time(nullptr);
+    std::cout << " Start Time"<<endl << ctime(&result1);
+
+
+    //calculating DeltaG
+    for(int i=0,sum;i<verticesCountsCPP;i++)
+    {
+        sum=0;
+        for( int j=0;j<verticesCountsCPP;j++)
+            sum+=connectionsArray[i][j];
+        if(sum>DeltaG)
+            DeltaG=sum;
+    }
+
+
+    for ( int color=0;color< DeltaG + 1;color++)
+    {
+        if(finished(colorsArray,verticesCountsCPP))
+            break;
+
+        for (int i=0;i<verticesCountsCPP;i++)
+        {
+            if(colorsArray[i] ==-1)
+                if(isPosible(i,colorsArray,color,verticesCountsCPP,connectionsArray))
+                {
+                    colorVerticesList.AddItem(i);
+                    colorsArray[i]=color;
+                }
+        }
+        cout<<"Item(s) of "<<color+1<<" color list is/are : "<<endl;
+        colorVerticesList.print(namesArray);
+        colorList.insert(colorList.end(),colorVerticesList);
+
+    }
+
+    cout<<" Used color numbers is : "<<colorList.size()<<endl;
+
+    // end time and printing diuration
+    std::time_t result2 = std::time(nullptr);
+    std::cout << " Finished time"<<endl<< ctime(&result2) <<"diuration :"<<result2 - result1<<"second(s) ."<<endl;
 }
