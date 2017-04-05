@@ -1,6 +1,6 @@
 #include "planningexam.h"
 
-PlanningExam::PlanningExam(QObject *parent):QObject(parent)
+PlanningExam::PlanningExam()
 {
 
 
@@ -89,7 +89,6 @@ void PlanningExam::setVerticesCount(int vertexCounts)
     colorsArray=new int [verticesCountsCPP];
     namesArray = new string[verticesCountsCPP];
 
-    emit verticesCountChanged();
 
 }
 

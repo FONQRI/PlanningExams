@@ -4,19 +4,17 @@
 #include <iostream>
 #include <ctime>
 #include <list>
-#include <QObject>
 
 #include "colorverticeslist.h"
 
 using namespace std;
 
 
-class PlanningExam:public QObject
+class PlanningExam
 {
-    Q_PROPERTY(int verticesCount READ verticesCount WRITE setVerticesCount NOTIFY verticesCountChanged)
-    Q_OBJECT
+
 public:
-    PlanningExam(QObject *parent = 0);
+    PlanningExam();
     int verticesCount();
     void setVerticesCount(int vertexCounts);
     void createSuggestedPlan();
@@ -32,8 +30,6 @@ private:
 
     bool isPosible(int ,int* ,int ,int,int **);
     bool finished(int *color, int n);
-signals:
-    void verticesCountChanged();
 };
 
 #endif // PLANNINGEXAM_H
