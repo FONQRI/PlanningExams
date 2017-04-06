@@ -2,5 +2,10 @@
     <qresource prefix="/">
         <file>QML/Create/AddItemDialog.qml</file>
         <file>QML/main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>QML/Create/MainDelegate.qml</file>
+        <file>QML/Create/ViewButton.qml</file>
+        <file>QML/Create/MainListPage.qml</file>
+        <file>QML/Create/AddCombo.qml</file>
     </qresource>
 </RCC>

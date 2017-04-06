@@ -22,11 +22,14 @@ class PlanManager : public QObject
 public:
     explicit PlanManager(QObject *parent = 0);
 
+    QStandardItemModel *model() const;
+
 public slots:
-    void addItem(const QString &text);
     void removeItem(const int &index);
     QString nameFromRel(const int &index);
     void updateRels(const int &index, const int &rel1, const int &rel2);
+    void addItem(const QString &text, const int &rel1Index,
+                 const int &rel2Index);
 };
 
 #endif  // PLANMANAGER_H

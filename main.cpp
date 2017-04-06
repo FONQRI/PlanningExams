@@ -11,9 +11,8 @@ int main(int argc, char *argv[])
     PlanManager P;
 
     QQmlApplicationEngine engine;
-
     engine.rootContext()->setContextProperty("PlanManager", &P);
-
+    engine.rootContext()->setContextProperty("PlanModel", P.model());
     engine.load(QUrl(QLatin1String("qrc:/QML/main.qml")));
 
     return app.exec();

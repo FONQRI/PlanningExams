@@ -1,5 +1,6 @@
 #include "planmanager.h"
 
+QStandardItemModel *PlanManager::model() const { return m_model; }
 void PlanManager::createDB()
 {
     m_db = QSqlDatabase::addDatabase("QSQLITE");
@@ -42,15 +43,23 @@ PlanManager::PlanManager(QObject *parent) : QObject(parent)
     dbToModel();
 }
 
-void PlanManager::addItem(const QString &text)
+void PlanManager::addItem(const QString &text, const int &rel1Index,
+                          const int &rel2Index)
 {
+    qDebug() << text << rel1Index << rel2Index;
+
+    int rel1id =
+        rel1Index >= 0 ? m_model->item(rel1Index)->data(IDRole).toInt() : -1;
+    int rel2id =
+        rel2Index >= 0 ? m_model->item(rel2Index)->data(IDRole).toInt() : -1;
+
     ++m_lastid;
     m_query->prepare("INSERT INTO plans VALUES(?, ?, ?, ?)");
 
     m_query->bindValue(0, m_lastid);
     m_query->bindValue(1, text);
-    m_query->bindValue(2, -1);
-    m_query->bindValue(3, -1);
+    m_query->bindValue(2, rel1id);
+    m_query->bindValue(3, rel2id);
 
     m_query->exec();
 
@@ -58,8 +67,8 @@ void PlanManager::addItem(const QString &text)
 
     item->setData(m_lastid, IDRole);
     item->setData(text, TextRole);
-    item->setData(-1, Rel1Role);
-    item->setData(-1, Rel2Role);
+    item->setData(rel1id, Rel1Role);
+    item->setData(rel2id, Rel2Role);
 
     m_model->appendRow(item);
     // TODO sort the model?
@@ -74,6 +83,7 @@ void PlanManager::removeItem(const int &index)
 
 QString PlanManager::nameFromRel(const int &index)
 {
+    if (index < 0) return "";
     return m_model->item(index)->data(TextRole).toString();
 }
 

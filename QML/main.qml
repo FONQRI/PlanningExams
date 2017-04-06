@@ -1,15 +1,14 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.0
+import "Create"
 
 ApplicationWindow {
     visible: true
-    width: 640
-    height: 480
+    width: 400
+    height: 600
     title: qsTr("Hello World")
 
-    Rectangle {
+    MainListPage {
         anchors.fill: parent
-        color: "teal"
     }
 }
