@@ -1,4 +1,4 @@
-#include <planmanager.h>
+#include <CPP/planmanager.h>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("PlanManager", &P);
 
-    engine.load(QUrl(QLatin1String("qrc:/main.qml")));
+    engine.load(QUrl(QLatin1String("qrc:/QML/main.qml")));
 
     return app.exec();
 }

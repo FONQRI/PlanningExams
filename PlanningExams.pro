@@ -3,9 +3,7 @@ QT += qml quick sql
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    colorverticeslist.cpp \
-    planningexam.cpp \
-    planmanager.cpp
+    CPP/planmanager.cpp
 
 RESOURCES += qml.qrc
 
@@ -32,12 +30,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    colorverticeslist.h \
-    planningexam.h \
-    planmanager.h \
-    viewmodel.h
+    CPP/planmanager.h \
+    CPP/viewmodel.h
 
 DISTFILES += \
-    PlanningExams.pro.user \
     LICENSE \
     README.md
