@@ -30,9 +30,16 @@ Page {
             rel1Text: PlanManager.nameFromRel(rel1Role)
             rel2Text: PlanManager.nameFromRel(rel2Role)
 
+            property int intrel1: rel1Role
+            property int intrel2: rel2Role
+
             onRequestMenu: {
                 menu.x = x-listview.contentX-menu.width
                 menu.y = y-listview.contentY
+                menu.currentIndex = index
+                menu.name = textRole
+                menu.rel1 = rel1Role
+                menu.rel2 = rel2Role
                 menu.open()
             }
         }
@@ -44,13 +51,24 @@ Page {
 
         Menu {
             id: menu
+            property int currentIndex: -1
+            property string name
+            property int rel1
+            property int rel2
 
             MenuItem {
                 text: "Edit"
+                onClicked: {
+                    aid.edit = true
+                    aid.currrentIndex = menu.currentIndex
+                    aid.setValues(menu.name, menu.rel1, menu.rel2)
+                    aid.open()
+                }
             }
 
             MenuItem {
                 text: "Remove"
+                onClicked: PlanManager.removeItem(menu.currentIndex)
             }
         }
     }

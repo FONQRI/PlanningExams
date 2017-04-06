@@ -10,7 +10,7 @@ ItemDelegate {
     property alias rel1Text: rel1Label.text
     property alias rel2Text: rel2Label.text
 
-    signal requestMenu(int index, int x, int y)
+    signal requestMenu(int x, int y)
 
     contentItem: RowLayout {
         spacing: control.spacing/2
@@ -55,13 +55,13 @@ ItemDelegate {
             id: expandButton
             text: "\u2304"
             checkable: true
-            visible: rel1Text && rel2Text
+            visible: rel1Text || rel2Text
         }
 
         RoundButton {
             text: "⋮"
             anchors.verticalCenter: parent.verticalCenter
-            onClicked: requestMenu(index, x+control.leftPadding+control.x+width/2,
+            onClicked: requestMenu(x+control.leftPadding+control.x+width/2,
                                    y+control.y+control.topPadding+height/2)
         }
     }
