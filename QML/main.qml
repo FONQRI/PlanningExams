@@ -7,7 +7,6 @@ ApplicationWindow {
     width: 400
     height: 600
     title: qsTr("PlaningExams")
-
     MainListPage {
         anchors.fill: parent
     }
