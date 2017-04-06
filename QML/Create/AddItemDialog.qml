@@ -26,7 +26,7 @@ Popup {
                 text: "Select the first relation"
             }
 
-            AddCombo {
+            ComboBox {
                 id: combo1
                 model: PlanModel
                 width: parent.width
