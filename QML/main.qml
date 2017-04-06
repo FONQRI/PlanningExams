@@ -6,7 +6,7 @@ ApplicationWindow {
     visible: true
     width: 400
     height: 600
-    title: qsTr("Hello World")
+    title: qsTr("Plan")
 
     MainListPage {
         anchors.fill: parent
