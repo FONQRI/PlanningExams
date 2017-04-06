@@ -29,11 +29,29 @@ Page {
             width: parent.width
             rel1Text: PlanManager.nameFromRel(rel1Role)
             rel2Text: PlanManager.nameFromRel(rel2Role)
+
+            onRequestMenu: {
+                menu.x = x-listview.contentX-menu.width
+                menu.y = y-listview.contentY
+                menu.open()
+            }
         }
 
         ViewButton {
             text: "+"
             onClicked: aid.open()
+        }
+
+        Menu {
+            id: menu
+
+            MenuItem {
+                text: "Edit"
+            }
+
+            MenuItem {
+                text: "Remove"
+            }
         }
     }
 }

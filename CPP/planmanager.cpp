@@ -46,8 +46,6 @@ PlanManager::PlanManager(QObject *parent) : QObject(parent)
 void PlanManager::addItem(const QString &text, const int &rel1Index,
                           const int &rel2Index)
 {
-    qDebug() << text << rel1Index << rel2Index;
-
     int rel1id =
         rel1Index >= 0 ? m_model->item(rel1Index)->data(IDRole).toInt() : -1;
     int rel2id =
