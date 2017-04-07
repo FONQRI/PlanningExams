@@ -27,19 +27,16 @@ Page {
         delegate: MainDelegate {
             text: textRole
             width: parent.width
-            rel1Text: PlanManager.nameFromRel(rel1Role)
-            rel2Text: PlanManager.nameFromRel(rel2Role)
-
-            property int intrel1: rel1Role
-            property int intrel2: rel2Role
+            rel1Text: rel1Role
+            rel2Text: rel2Role
 
             onRequestMenu: {
                 menu.x = x-listview.contentX-menu.width
                 menu.y = y-listview.contentY
                 menu.currentIndex = index
                 menu.name = textRole
-                menu.rel1 = rel1Role
-                menu.rel2 = rel2Role
+                menu.rel1 = PlanManager.indexFromText(rel1Role)
+                menu.rel2 = PlanManager.indexFromText(rel2Role)
                 menu.open()
             }
         }

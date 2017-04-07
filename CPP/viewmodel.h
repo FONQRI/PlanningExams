@@ -2,14 +2,7 @@
 #define VIEWMODEL_H
 
 #include <QStandardItemModel>
-
-enum DataRoles
-{
-    IDRole = Qt::UserRole + 1,
-    TextRole = Qt::UserRole + 2,
-    Rel1Role = Qt::UserRole + 3,
-    Rel2Role = Qt::UserRole + 4
-};
+#include "plan.h"
 
 class ViewModel : public QStandardItemModel
 {

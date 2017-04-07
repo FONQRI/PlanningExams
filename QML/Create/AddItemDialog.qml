@@ -26,8 +26,8 @@ Popup {
 
     function setValues(name, r1, r2) {
         nameField.text = name
-        combo1.currentIndex = r1
-        combo2.currentIndex = r2
+        combo1.currentIndex = r1<0 ? 0:r1
+        combo2.currentIndex = r2<0 ? 0:r2
         check1.checked = (r1>0)
         check2.checked = (r2>0)
     }

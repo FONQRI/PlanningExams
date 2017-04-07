@@ -14,63 +14,72 @@ void PlanManager::createDB()
         "INTEGER, rel2 INTEGER)");
 
     m_query->exec("SELECT DISTINCT id FROM plans ORDER  BY id ASC");
-    m_lastid = m_query->last() ? m_query->value(0).toInt() : 0;
+    m_lastid = m_query->last() ? m_query->value(0).toInt() : -1;
 }
 
 void PlanManager::dbToModel()
 {
+    m_plans.clear();
     m_model->clear();
-    m_list.clear();
 
     m_query->exec("SELECT * FROM plans");
+    while (m_query->next()) m_plans << Plan::fromRecord(m_query->record());
 
-    while (m_query->next())
-        {
-            int id = m_query->value(0).toInt();
-            QString name = m_query->value(1).toString();
-
-            m_list[id] = name;
-
-            QStandardItem *item = new QStandardItem;
-
-            item->setData(id, IDRole);
-            item->setData(name, TextRole);
-            item->setData(m_query->value(2).toInt(), Rel1Role);
-            item->setData(m_query->value(3).toInt(), Rel2Role);
-
-            m_model->appendRow(item);
-        }
+    connectPlans();
+    for (Plan &P : m_plans) m_model->appendRow(P.toItem());
 
     m_model->sort(0);
 }
 
-void PlanManager::removeIDFromDB(const int &id)
+int PlanManager::idFromIndex(const int &role)
 {
-    m_query->prepare("UPDATE plans SET rel1=-1 WHERE rel1=:id");
-    m_query->bindValue(":id", id);
-    m_query->exec();
-
-    m_query->prepare("UPDATE plans SET rel1=-1 WHERE rel2=:id");
-    m_query->bindValue(":id", id);
-    m_query->exec();
+    if (role < 0)
+        return role;
+    else
+        return m_model->item(role)->data(IDRole).toInt();
 }
 
-void PlanManager::removeIDFromModel(const int &id)
+void PlanManager::connectPlans()
 {
-    QList<DataRoles> roles;
-    roles << Rel1Role << Rel2Role;
+    for (Plan &P : m_plans)
+        for (Plan &PP : m_plans)
+            {
+                if (PP.tempRel1 == P.id) PP.rel1 = &P;
+                if (PP.tempRel2 == P.id) PP.rel2 = &P;
+            }
+}
 
-    for (const DataRoles &R : roles)
+Plan *PlanManager::findByID(const int &id)
+{
+    for (Plan &P : m_plans)
+        if (P.id == id) return &P;
+
+    return nullPlan;
+}
+
+int PlanManager::indexByID(const int &id)
+{
+    int count = 0;
+
+    for (Plan &P : m_plans)
         {
-            QModelIndexList found = m_model->match(m_model->index(0, 0), R, id,
-                                                   -1, Qt::MatchExactly);
-
-            for (const QModelIndex &I : found)
-                {
-                    QStandardItem *item = m_model->itemFromIndex(I);
-                    item->setData(-1, R);
-                }
+            if (P.id == id) return count;
+            ++count;
         }
+
+    return -1;
+}
+
+int PlanManager::indexFromText(const QString &text)
+{
+    if (text.isEmpty()) return -1;
+
+    QModelIndexList found = m_model->match(m_model->index(0, 0), TextRole, text,
+                                           -1, Qt::MatchExactly);
+
+    if (found.count() != 1) return -1;
+
+    return found[0].row();
 }
 
 PlanManager::PlanManager(QObject *parent) : QObject(parent)
@@ -81,68 +90,58 @@ PlanManager::PlanManager(QObject *parent) : QObject(parent)
     dbToModel();
 }
 
-void PlanManager::addItem(const QString &text, const int &rel1Index,
-                          const int &rel2Index)
+void PlanManager::addItem(const QString &text, const int &rel1, const int &rel2)
 {
-    int rel1id =
-        rel1Index >= 0 ? m_model->item(rel1Index)->data(IDRole).toInt() : -1;
-    int rel2id =
-        rel2Index >= 0 ? m_model->item(rel2Index)->data(IDRole).toInt() : -1;
+    Plan P(++m_lastid, text);
+    P.rel1 = findByID(idFromIndex(rel1));
+    P.rel2 = findByID(idFromIndex(rel2));
 
-    ++m_lastid;
-    m_query->prepare("INSERT INTO plans VALUES(?, ?, ?, ?)");
+    m_plans << P;
+    P.addToDB(m_query);
+    m_model->appendRow(P.toItem());
 
-    m_query->bindValue(0, m_lastid);
-    m_query->bindValue(1, text);
-    m_query->bindValue(2, rel1id);
-    m_query->bindValue(3, rel2id);
-
-    m_list[m_lastid] = text;
-
-    m_query->exec();
-
-    QStandardItem *item = new QStandardItem;
-
-    item->setData(m_lastid, IDRole);
-    item->setData(text, TextRole);
-    item->setData(rel1id, Rel1Role);
-    item->setData(rel2id, Rel2Role);
-
-    m_model->appendRow(item);
-    //    m_model->sort(0); // TODO does not work
+    m_model->sort(0);
 }
 
 void PlanManager::removeItem(const int &index)
 {
-    int id = m_model->item(index)->data(IDRole).toInt();
-    m_query->prepare("DELETE FROM plans WHERE id=:id");
+    int id = idFromIndex(index);
+
+    m_query->prepare("DELETE FROM plans WHERE id=?");
+    m_query->bindValue(0, id);
+    m_query->exec();
+
+    m_query->prepare("UPDATE plans SET rel1=-1 WHERE rel1=:id");
     m_query->bindValue(":id", id);
     m_query->exec();
 
-    m_model->removeRow(index);
-    m_list.remove(id);
-    removeIDFromDB(id);
-    removeIDFromModel(id);
+    m_query->prepare("UPDATE plans SET rel1=-1 WHERE rel2=:id");
+    m_query->bindValue(":id", id);
+    m_query->exec();
 
-    if (m_model->rowCount() <= 0) m_lastid = 0;
+    int idx = indexByID(id);
+    if (idx >= 0) m_plans.removeAt(idx);
+
+    m_model->clear();
+    for (Plan &P : m_plans) m_model->appendRow(P.toItem());
+
+    if (m_model->rowCount() <= 0) m_lastid = -1;
 }
 
-QString PlanManager::nameFromRel(const int &id) { return m_list.value(id, ""); }
 void PlanManager::editItem(const int &index, const QString &text,
                            const int &rel1, const int &rel2)
 {
     QStandardItem *item = m_model->item(index);
-    int id = item->data(IDRole).toInt();
+    Plan *P = findByID(idFromIndex(index));
+    P->name = text;
+    P->rel1 = findByID(rel1);
+    P->rel2 = findByID(rel2);
 
-    QString ps = "UPDATE plans SET rel1=:r1, rel2=:r2, name=:name WHERE id=:id";
-    m_query->prepare(ps);
-    m_query->bindValue(":r1", rel1);
-    m_query->bindValue(":r2", rel2);
-    m_query->bindValue(":name", text);
-    m_query->bindValue(":id", id);
-    m_list[id] = text;
+    P->updateInDB(m_query);
 
-    item->setData(rel1, Rel1Role);
-    item->setData(rel2, Rel2Role);
+    item->setData(P->rel1 == nullptr ? "" : P->rel1->name, Rel1Role);
+    item->setData(P->rel2 == nullptr ? "" : P->rel2->name, Rel2Role);
     item->setData(text, TextRole);
+
+    m_model->sort(0);
 }

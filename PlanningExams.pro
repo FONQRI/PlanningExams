@@ -3,7 +3,8 @@ QT += qml quick sql
 CONFIG += c++11
 
 SOURCES += main.cpp \
-    CPP/planmanager.cpp
+    CPP/planmanager.cpp \
+    CPP/plan.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,7 +32,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     CPP/planmanager.h \
-    CPP/viewmodel.h
+    CPP/viewmodel.h \
+    CPP/plan.h
 
 DISTFILES += \
     LICENSE \
