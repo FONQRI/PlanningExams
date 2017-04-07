@@ -10,12 +10,13 @@ ItemDelegate {
     property alias rel1Text: rel1Label.text
     property alias rel2Text: rel2Label.text
 
+    signal requestMenu(int x, int y)
+
     contentItem: RowLayout {
         spacing: control.spacing/2
 
         Column {
             id: column
-            clip: true
             Layout.fillWidth: true
             spacing: control.spacing
 
@@ -28,6 +29,7 @@ ItemDelegate {
             }
 
             Column {
+                clip: true
                 width: parent.width
                 spacing: control.spacing/2
                 height: expand ? implicitHeight:0
@@ -53,12 +55,21 @@ ItemDelegate {
             id: expandButton
             text: "\u2304"
             checkable: true
-            visible: rel1Text && rel2Text
+            visible: rel1Text || rel2Text
         }
 
         RoundButton {
             text: "⋮"
             anchors.verticalCenter: parent.verticalCenter
+            onClicked: requestMenu(x+control.leftPadding+control.x+width/2,
+                                   y+control.y+control.topPadding+height/2)
         }
+    }
+
+    Rectangle {
+        color: "black"
+        height: 1
+        width: parent.width
+        anchors.bottom: parent.bottom
     }
 }

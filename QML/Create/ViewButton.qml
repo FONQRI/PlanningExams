@@ -4,8 +4,8 @@ import QtQuick.Controls 2.1
 
 RoundButton {
     id: control
-    implicitWidth: 60
-    implicitHeight: 60
+    implicitWidth: 75
+    implicitHeight: 75
     x: endX
     y: endY
 
