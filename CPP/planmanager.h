@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QHash>
 #include <QObject>
+#include <QTime>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlRecord>
@@ -15,8 +16,6 @@ class PlanManager : public QObject
 {
     Q_OBJECT
 
-    Plan *nullPlan = nullptr;
-
     int m_lastid;
     QSqlDatabase m_db;
     QSqlQuery *m_query;
@@ -25,7 +24,6 @@ class PlanManager : public QObject
 
     void createDB();
     void dbToModel();
-    void removeIDFromModel(const int &id);
 
     inline int idFromIndex(const int &role);
 

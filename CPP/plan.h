@@ -22,8 +22,8 @@ public:
     Plan *rel2 = nullptr;
     int id;
 
-    int tempRel1;
-    int tempRel2;
+    int tempRel1 = -1;
+    int tempRel2 = -1;
 
     Plan() {}
     Plan(const int &id, const QString &name);

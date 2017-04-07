@@ -54,7 +54,7 @@ Plan *PlanManager::findByID(const int &id)
     for (Plan &P : m_plans)
         if (P.id == id) return &P;
 
-    return nullPlan;
+    return nullptr;
 }
 
 int PlanManager::indexByID(const int &id)
@@ -115,11 +115,19 @@ void PlanManager::removeItem(const int &index)
     m_query->bindValue(":id", id);
     m_query->exec();
 
-    m_query->prepare("UPDATE plans SET rel1=-1 WHERE rel2=:id");
+    m_query->prepare("UPDATE plans SET rel2=-1 WHERE rel2=:id");
     m_query->bindValue(":id", id);
     m_query->exec();
 
     int idx = indexByID(id);
+    Plan *DP = &m_plans[idx];
+
+    for (Plan &P : m_plans)
+        {
+            if (P.rel1 == DP) P.rel1 = nullptr;
+            if (P.rel2 == DP) P.rel2 = nullptr;
+        }
+
     if (idx >= 0) m_plans.removeAt(idx);
 
     m_model->clear();
@@ -133,9 +141,12 @@ void PlanManager::editItem(const int &index, const QString &text,
 {
     QStandardItem *item = m_model->item(index);
     Plan *P = findByID(idFromIndex(index));
+
+    bool sort = (text != P->name);
+
     P->name = text;
-    P->rel1 = findByID(rel1);
-    P->rel2 = findByID(rel2);
+    P->rel1 = findByID(idFromIndex(rel1));
+    P->rel2 = findByID(idFromIndex(rel2));
 
     P->updateInDB(m_query);
 
@@ -143,5 +154,5 @@ void PlanManager::editItem(const int &index, const QString &text,
     item->setData(P->rel2 == nullptr ? "" : P->rel2->name, Rel2Role);
     item->setData(text, TextRole);
 
-    m_model->sort(0);
+    if (sort) m_model->sort(0);
 }
