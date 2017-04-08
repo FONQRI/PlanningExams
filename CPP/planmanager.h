@@ -16,32 +16,35 @@ class PlanManager : public QObject
 {
     Q_OBJECT
 
-    int m_lastid;
-    QSqlDatabase m_db;
-    QSqlQuery *m_query;
-    QList<Plan> m_plans;
-    QStandardItemModel *m_model;
+    int lastIDInDatabase;
+    QSqlDatabase database;
+    QSqlQuery *query;
+    QList<Plan> plansList;
+    QStandardItemModel *model;
 
-    void createDB();
-    void dbToModel();
-
-    inline int idFromIndex(const int &role);
+    void createDatabse();
+    void databseToModel();
 
     void connectPlans();
-    Plan *findByID(const int &id);
-    int indexByID(const int &id);
+
+    int indexByID(const int &id);   // searh in plans list
+    Plan *findByID(const int &id);  // searh in plans list
+    inline int idFromIndex(const int &role);
 
 public:
     explicit PlanManager(QObject *parent = 0);
 
-    QStandardItemModel *model() const;
+    QStandardItemModel *getModel() const;
 
 public slots:
-    int indexFromText(const QString &text);
+    int indexFromText(const QString &text);  // search in model
     void removeItem(const int &index);
-    void addItem(const QString &text, const int &rel1, const int &rel2);
-    void editItem(const int &index, const QString &text, const int &rel1,
-                  const int &rel2);
+
+    void addItem(const QString &text, const int &relation1,
+                 const int &relation2);
+
+    void editItem(const int &index, const QString &text, const int &relation1,
+                  const int &relation2);
 };
 
 #endif  // PLANMANAGER_H
