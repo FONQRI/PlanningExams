@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("PlanManager", &P);
-    engine.rootContext()->setContextProperty("PlanModel", P.model());
+    engine.rootContext()->setContextProperty("PlanModel", P.getModel());
     engine.load(QUrl(QLatin1String("qrc:/QML/main.qml")));
 
     return app.exec();

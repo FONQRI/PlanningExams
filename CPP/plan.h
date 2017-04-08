@@ -17,20 +17,23 @@ enum DataRoles
 class Plan
 {
 public:
+    int identifier;
     QString name;
-    Plan *rel1 = nullptr;
-    Plan *rel2 = nullptr;
-    int id;
+    Plan *firstRelation = nullptr;
+    Plan *secondRelation = nullptr;
 
-    int tempRel1 = -1;
-    int tempRel2 = -1;
+    int currentColor;
+    QList<int> availableColors;
+
+    int temporaryFirstRelation = -1;
+    int temprarySecondRelation = -1;
 
     Plan() {}
-    Plan(const int &id, const QString &name);
+    Plan(const int &identifier, const QString &name);
 
-    void addToDB(QSqlQuery *Q);
-    void updateInDB(QSqlQuery *Q);
-    static Plan fromRecord(const QSqlRecord &R);
+    void addToDatabase(QSqlQuery *query);
+    void updateInDatabse(QSqlQuery *query);
+    static Plan fromRecord(const QSqlRecord &record);
 
     QStandardItem *toItem();
 };
