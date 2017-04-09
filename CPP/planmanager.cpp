@@ -51,7 +51,7 @@ void PlanManager::connectPlans()
             }
 }
 
-Plan *PlanManager::findByID(const int &id)
+Plan *PlanManager::findPlan(const int &id)
 {
     for (Plan &P : plansList)
         if (P.identifier == id) return &P;
@@ -59,7 +59,7 @@ Plan *PlanManager::findByID(const int &id)
     return nullptr;
 }
 
-int PlanManager::indexByID(const int &id)
+int PlanManager::searchPlansIndex(const int &id)
 {
     int count = 0;
 
@@ -72,12 +72,12 @@ int PlanManager::indexByID(const int &id)
     return -1;
 }
 
-int PlanManager::indexFromText(const QString &text)
+int PlanManager::searchModel(const QString &name)
 {
-    if (text.isEmpty()) return -1;
+    if (name.isEmpty()) return -1;
 
     QModelIndexList found =
-        model->match(model->index(0, 0), TextRole, text, -1, Qt::MatchExactly);
+        model->match(model->index(0, 0), TextRole, name, -1, Qt::MatchExactly);
 
     if (found.count() != 1) return -1;
 
@@ -96,8 +96,8 @@ void PlanManager::addItem(const QString &text, const int &relation1,
                           const int &relation2)
 {
     Plan P(++lastIDInDatabase, text);
-    P.firstRelation = findByID(idFromIndex(relation1));
-    P.secondRelation = findByID(idFromIndex(relation2));
+    P.firstRelation = findPlan(idFromIndex(relation1));
+    P.secondRelation = findPlan(idFromIndex(relation2));
 
     plansList << P;
     P.addToDatabase(query);
@@ -122,7 +122,7 @@ void PlanManager::removeItem(const int &index)
     query->bindValue(":id", id);
     query->exec();
 
-    int idx = indexByID(id);
+    int idx = searchPlansIndex(id);
     Plan *DP = &plansList[idx];
 
     for (Plan &P : plansList)
@@ -143,13 +143,13 @@ void PlanManager::editItem(const int &index, const QString &text,
                            const int &relation1, const int &relation2)
 {
     QStandardItem *item = model->item(index);
-    Plan *P = findByID(idFromIndex(index));
+    Plan *P = findPlan(idFromIndex(index));
 
     bool sort = (text != P->name);
 
     P->name = text;
-    P->firstRelation = findByID(idFromIndex(relation1));
-    P->secondRelation = findByID(idFromIndex(relation2));
+    P->firstRelation = findPlan(idFromIndex(relation1));
+    P->secondRelation = findPlan(idFromIndex(relation2));
 
     P->updateInDatabse(query);
 

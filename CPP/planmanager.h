@@ -16,9 +16,15 @@ class PlanManager : public QObject
 {
     Q_OBJECT
 
+public:
+    explicit PlanManager(QObject *parent = 0);
+
+    QStandardItemModel *getModel() const;
+
+private:
+    QSqlQuery *query;
     int lastIDInDatabase;
     QSqlDatabase database;
-    QSqlQuery *query;
     QList<Plan> plansList;
     QStandardItemModel *model;
 
@@ -27,17 +33,12 @@ class PlanManager : public QObject
 
     void connectPlans();
 
-    int indexByID(const int &id);   // searh in plans list
-    Plan *findByID(const int &id);  // searh in plans list
+    Plan *findPlan(const int &id);
+    int searchPlansIndex(const int &id);
     inline int idFromIndex(const int &role);
 
-public:
-    explicit PlanManager(QObject *parent = 0);
-
-    QStandardItemModel *getModel() const;
-
 public slots:
-    int indexFromText(const QString &text);  // search in model
+    int searchModel(const QString &name);
     void removeItem(const int &index);
 
     void addItem(const QString &text, const int &relation1,
