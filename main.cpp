@@ -13,6 +13,5 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("PlanManager", &P);
     engine.rootContext()->setContextProperty("PlanModel", P.getModel());
     engine.load(QUrl(QLatin1String("qrc:/QML/main.qml")));
-    Programmer programmer;
     return app.exec();
 }

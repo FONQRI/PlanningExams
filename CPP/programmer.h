@@ -35,6 +35,8 @@ signals:
 public slots:
     void painter(QList<Plan *> *verticesList);
     void availableColors(QList<Plan *> *verticesList);
+    void changeColor(QList<Plan *> *verticesList, int index, int color);
+    void addColor(QList<Plan *> *verticesList, int index);
 };
 
 #endif  // PROGRAMMER_H

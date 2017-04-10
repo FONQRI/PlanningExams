@@ -82,3 +82,18 @@ void Programmer::availableColors(QList<Plan *> *verticesList)
                 }
         }
 }
+
+void Programmer::changeColor(QList<Plan *> *verticesList, int index, int color)
+{
+    verticesList->at(index)->currentColor = color;
+    verticesColor[index] = color;
+    availableColors(verticesList);
+}
+
+void Programmer::addColor(QList<Plan *> *verticesList, int index)
+{
+    int color = colorsArray.size();
+    verticesList->at(index)->currentColor = color;
+    colorsArray.push_back(color);
+    verticesColor[index] = color;
+}
