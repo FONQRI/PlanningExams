@@ -4,7 +4,8 @@ CONFIG += c++11
 
 SOURCES += main.cpp \
     CPP/planmanager.cpp \
-    CPP/plan.cpp
+    CPP/plan.cpp \
+    CPP/programmer.cpp
 
 RESOURCES += qml.qrc
 
@@ -33,7 +34,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     CPP/planmanager.h \
     CPP/viewmodel.h \
-    CPP/plan.h
+    CPP/plan.h \
+    CPP/programmer.h
 
 DISTFILES += \
     LICENSE \

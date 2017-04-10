@@ -1,5 +1,13 @@
 #include "planmanager.h"
 
+PlanManager::PlanManager(QObject *parent) : QObject(parent)
+{
+    createDatabse();
+    model = new ViewModel(this);
+    model->setSortRole(TextRole);
+    databseToModel();
+}
+
 QStandardItemModel *PlanManager::getModel() const { return model; }
 void PlanManager::createDatabse()
 {
@@ -82,14 +90,6 @@ int PlanManager::searchModel(const QString &name)
     if (found.count() != 1) return -1;
 
     return found[0].row();
-}
-
-PlanManager::PlanManager(QObject *parent) : QObject(parent)
-{
-    createDatabse();
-    model = new ViewModel(this);
-    model->setSortRole(TextRole);
-    databseToModel();
 }
 
 void PlanManager::addItem(const QString &text, const int &relation1,

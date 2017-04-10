@@ -19,8 +19,8 @@ class Plan
 public:
     int identifier;
     QString name;
-    Plan *firstRelation = nullptr;
-    Plan *secondRelation = nullptr;
+    Plan const *firstRelation = nullptr;
+    Plan const *secondRelation = nullptr;
 
     int currentColor;
     QList<int> availableColors;

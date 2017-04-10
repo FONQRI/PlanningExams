@@ -35,8 +35,8 @@ Page {
                 menu.y = y-listview.contentY
                 menu.currentIndex = index
                 menu.name = textRole
-                menu.rel1 = PlanManager.indexFromText(rel1Role)
-                menu.rel2 = PlanManager.indexFromText(rel2Role)
+                menu.rel1 = PlanManager.searchModel(rel1Role)
+                menu.rel2 = PlanManager.searchModel(rel2Role)
                 menu.open()
             }
         }
