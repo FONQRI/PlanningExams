@@ -7,36 +7,34 @@
 #include <QVariant>
 #include <algorithm>
 #include <vector>
-
 #include "plan.h"
 
-using namespace std;
+using std::vector;
 
 class Programmer : public QObject
 {
     Q_OBJECT
 public:
-    explicit Programmer(QObject *parent = 0);
-    int size;
+    explicit Programmer(QList<Plan *> *verticesList, QObject *parent = 0);
+    unsigned int size;
     vector<vector<int>> connectionArray;
-    int colorNumbers = 0;
-    int deltaG;
+    unsigned int deltaG;
     vector<int> colorsArray;
 
 private:
     vector<int> verticesColor;
-    std::vector<int>::iterator it;
-
+    //  std::vector<int>::iterator it;
+    QList<Plan *> *verticesList;
     bool isFinished();
     bool isPossible(int index, int color, int size);
 
 signals:
 
 public slots:
-    void painter(QList<Plan *> *verticesList);
-    void availableColors(QList<Plan *> *verticesList);
-    void changeColor(QList<Plan *> *verticesList, int index, int color);
-    void addColor(QList<Plan *> *verticesList, int index);
+    void paint();
+    void setAvailableColors();
+    void changeColor(int index, int color);
+    void addColor(int index);
 };
 
 #endif  // PROGRAMMER_H
