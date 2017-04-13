@@ -11,7 +11,8 @@ enum DataRoles
     IDRole = Qt::UserRole + 1,
     TextRole = Qt::UserRole + 2,
     Rel1Role = Qt::UserRole + 3,
-    Rel2Role = Qt::UserRole + 4
+    Rel2Role = Qt::UserRole + 4,
+    ColorRole = Qt::UserRole + 5
 };
 
 class Plan
@@ -22,7 +23,7 @@ public:
     Plan const *firstRelation = nullptr;
     Plan const *secondRelation = nullptr;
 
-    int currentColor;
+    int currentColor = -1;
     QList<int> availableColors;
 
     int temporaryFirstRelation = -1;
@@ -30,6 +31,9 @@ public:
 
     Plan() {}
     Plan(const int &identifier, const QString &name);
+
+    QString colorsListToString();
+    void colorListFromString(const QString &text);
 
     void addToDatabase(QSqlQuery *query);
     void updateInDatabse(QSqlQuery *query);

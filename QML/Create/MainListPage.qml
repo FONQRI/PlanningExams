@@ -19,6 +19,10 @@ Page {
         id: aid
     }
 
+    ColorDialog {
+        id: cd
+    }
+
     ListView {
         id: listview
         model: PlanModel
@@ -35,6 +39,8 @@ Page {
                 menu.y = y-listview.contentY
                 menu.currentIndex = index
                 menu.name = textRole
+                menu.color = colorRole
+                menu.id = idRole
                 menu.rel1 = PlanManager.searchModel(rel1Role)
                 menu.rel2 = PlanManager.searchModel(rel2Role)
                 menu.open()
@@ -52,6 +58,8 @@ Page {
             property string name
             property int rel1
             property int rel2
+            property int color
+            property int id
 
             MenuItem {
                 text: "Edit"
@@ -66,6 +74,15 @@ Page {
             MenuItem {
                 text: "Remove"
                 onClicked: PlanManager.removeItem(menu.currentIndex)
+            }
+
+            MenuItem {
+                text: "Choose Color"
+                onClicked: {
+                    cd.currentID = menu.id
+                    cd.currentColor = menu.color
+                    cd.open()
+                }
             }
         }
     }

@@ -6,5 +6,6 @@
         <file>QML/Create/MainDelegate.qml</file>
         <file>QML/Create/ViewButton.qml</file>
         <file>QML/Create/MainListPage.qml</file>
+        <file>QML/Create/ColorDialog.qml</file>
     </qresource>
 </RCC>
