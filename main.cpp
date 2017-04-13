@@ -8,10 +8,15 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    PlanManager P;
+    PlanManager PP;
+    Programmer P(PP.getPlansList());
+
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("PlanManager", &P);
-    engine.rootContext()->setContextProperty("PlanModel", P.getModel());
+
+    engine.rootContext()->setContextProperty("PlanManager", &PP);
+    engine.rootContext()->setContextProperty("Programmer", &P);
+    engine.rootContext()->setContextProperty("PlanModel", PP.getModel());
+
     engine.load(QUrl(QLatin1String("qrc:/QML/main.qml")));
     return app.exec();
 }

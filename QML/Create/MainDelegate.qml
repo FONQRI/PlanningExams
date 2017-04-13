@@ -9,6 +9,7 @@ ItemDelegate {
 
     property alias rel1Text: rel1Label.text
     property alias rel2Text: rel2Label.text
+    property int currentColor: -1
 
     signal requestMenu(int x, int y)
 
@@ -51,6 +52,22 @@ ItemDelegate {
             }
         }
 
+        Rectangle {
+            implicitWidth: 40
+            implicitHeight: 40
+            antialiasing: true
+            radius: width
+            border.color: "black"
+            color: "transparent"
+
+            Label {
+                anchors.fill: parent
+                text: currentColor == -1 ? "?":currentColor
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+
         RoundButton {
             id: expandButton
             text: "\u2304"
@@ -59,6 +76,7 @@ ItemDelegate {
         }
 
         RoundButton {
+            id: menuButton
             text: "⋮"
             anchors.verticalCenter: parent.verticalCenter
             onClicked: requestMenu(x+control.leftPadding+control.x+width/2,

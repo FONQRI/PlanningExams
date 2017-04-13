@@ -18,14 +18,16 @@ class PlanManager : public QObject
 
 public:
     explicit PlanManager(QObject *parent = 0);
+    ~PlanManager();
 
     QStandardItemModel *getModel() const;
+    QList<Plan *> *getPlansList();
 
 private:
     QSqlQuery *query;
     int lastIDInDatabase;
     QSqlDatabase database;
-    QList<Plan> plansList;
+    QList<Plan *> plansList;
     QStandardItemModel *model;
 
     void createDatabse();
@@ -34,10 +36,12 @@ private:
     void connectPlans();
 
     Plan *findPlan(const int &id);
-    int searchPlansIndex(const int &id);
     inline int idFromIndex(const int &role);
 
 public slots:
+    int searchPlansIndex(const int &id);
+    QList<int> getAvailableColors(const int &id);
+
     int searchModel(const QString &name);
     void removeItem(const int &index);
 
