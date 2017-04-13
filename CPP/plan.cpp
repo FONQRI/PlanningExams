@@ -55,16 +55,16 @@ void Plan::updateInDatabse(QSqlQuery *query)
     query->exec();
 }
 
-Plan Plan::fromRecord(const QSqlRecord &record)
+Plan *Plan::fromRecord(const QSqlRecord &record)
 {
-    Plan P;
+    Plan *P = new Plan();
 
-    P.identifier = record.value(0).toInt();
-    P.name = record.value(1).toString();
-    P.temporaryFirstRelation = record.value(2).toInt();
-    P.temprarySecondRelation = record.value(3).toInt();
-    P.currentColor = record.value(4).toInt();
-    P.colorListFromString(record.value(5).toString());
+    P->identifier = record.value(0).toInt();
+    P->name = record.value(1).toString();
+    P->temporaryFirstRelation = record.value(2).toInt();
+    P->temprarySecondRelation = record.value(3).toInt();
+    P->currentColor = record.value(4).toInt();
+    P->colorListFromString(record.value(5).toString());
 
     return P;
 }

@@ -10,7 +10,7 @@ Popup {
     width: parent.width*3/4
     height: parent.height/2
 
-    onOpened: rep.model = PlanManager.getAvailableColors(id)
+    onOpened: rep.model = PlanManager.getAvailableColors(currentID)
 
     property int planIndex
     property int currentColor
@@ -51,6 +51,10 @@ Popup {
         footer: Button {
             text: "+"
             width: parent.width
+            onClicked: {
+                Programmer.addColor(PlanManager.searchPlansIndex(currentID))
+                rep.model = PlanManager.getAvailableColors(currentID)
+            }
         }
     }
 }

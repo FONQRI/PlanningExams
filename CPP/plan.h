@@ -37,7 +37,7 @@ public:
 
     void addToDatabase(QSqlQuery *query);
     void updateInDatabse(QSqlQuery *query);
-    static Plan fromRecord(const QSqlRecord &record);
+    static Plan *fromRecord(const QSqlRecord &record);
 
     QStandardItem *toItem();
 };

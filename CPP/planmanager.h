@@ -18,6 +18,7 @@ class PlanManager : public QObject
 
 public:
     explicit PlanManager(QObject *parent = 0);
+    ~PlanManager();
 
     QStandardItemModel *getModel() const;
     QList<Plan *> *getPlansList();
@@ -26,7 +27,7 @@ private:
     QSqlQuery *query;
     int lastIDInDatabase;
     QSqlDatabase database;
-    QList<Plan> plansList;
+    QList<Plan *> plansList;
     QStandardItemModel *model;
 
     void createDatabse();

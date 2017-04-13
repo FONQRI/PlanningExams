@@ -8,6 +8,15 @@ PlanManager::PlanManager(QObject *parent) : QObject(parent)
     databseToModel();
 }
 
+PlanManager::~PlanManager()
+{
+    for (Plan *P : plansList)
+        {
+            delete P;
+            P = nullptr;
+        }
+}
+
 QStandardItemModel *PlanManager::getModel() const { return model; }
 QList<Plan *> *PlanManager::getPlansList() { return &plansList; }
 void PlanManager::createDatabse()
@@ -35,7 +44,7 @@ void PlanManager::databseToModel()
     while (query->next()) plansList << Plan::fromRecord(query->record());
 
     connectPlans();
-    for (Plan &P : plansList) model->appendRow(P.toItem());
+    for (Plan *P : plansList) model->appendRow(P->toItem());
 
     model->sort(0);
 }
@@ -55,20 +64,20 @@ QList<int> PlanManager::getAvailableColors(const int &id)
 
 void PlanManager::connectPlans()
 {
-    for (Plan &P : plansList)
-        for (Plan &PP : plansList)
+    for (Plan *P : plansList)
+        for (Plan *PP : plansList)
             {
-                if (PP.temporaryFirstRelation == P.identifier)
-                    PP.firstRelation = &P;
-                if (PP.temprarySecondRelation == P.identifier)
-                    PP.secondRelation = &P;
+                if (PP->temporaryFirstRelation == P->identifier)
+                    PP->firstRelation = P;
+                if (PP->temprarySecondRelation == P->identifier)
+                    PP->secondRelation = P;
             }
 }
 
 Plan *PlanManager::findPlan(const int &id)
 {
-    for (Plan &P : plansList)
-        if (P.identifier == id) return &P;
+    for (Plan *P : plansList)
+        if (P->identifier == id) return P;
 
     return nullptr;
 }
@@ -77,9 +86,9 @@ int PlanManager::searchPlansIndex(const int &id)
 {
     int count = 0;
 
-    for (Plan &P : plansList)
+    for (Plan *P : plansList)
         {
-            if (P.identifier == id) return count;
+            if (P->identifier == id) return count;
             ++count;
         }
 
@@ -101,13 +110,13 @@ int PlanManager::searchModel(const QString &name)
 void PlanManager::addItem(const QString &text, const int &relation1,
                           const int &relation2)
 {
-    Plan P(++lastIDInDatabase, text);
-    P.firstRelation = findPlan(idFromIndex(relation1));
-    P.secondRelation = findPlan(idFromIndex(relation2));
+    Plan *P = new Plan(++lastIDInDatabase, text);
+    P->firstRelation = findPlan(idFromIndex(relation1));
+    P->secondRelation = findPlan(idFromIndex(relation2));
 
     plansList << P;
-    P.addToDatabase(query);
-    model->appendRow(P.toItem());
+    P->addToDatabase(query);
+    model->appendRow(P->toItem());
 
     model->sort(0);
 }
@@ -129,18 +138,18 @@ void PlanManager::removeItem(const int &index)
     query->exec();
 
     int idx = searchPlansIndex(id);
-    Plan *DP = &plansList[idx];
+    Plan *DP = plansList[idx];
 
-    for (Plan &P : plansList)
+    for (Plan *P : plansList)
         {
-            if (P.firstRelation == DP) P.firstRelation = nullptr;
-            if (P.secondRelation == DP) P.secondRelation = nullptr;
+            if (P->firstRelation == DP) P->firstRelation = nullptr;
+            if (P->secondRelation == DP) P->secondRelation = nullptr;
         }
 
     if (idx >= 0) plansList.removeAt(idx);
 
     model->clear();
-    for (Plan &P : plansList) model->appendRow(P.toItem());
+    for (Plan *P : plansList) model->appendRow(P->toItem());
 
     if (model->rowCount() <= 0) lastIDInDatabase = -1;
 }
