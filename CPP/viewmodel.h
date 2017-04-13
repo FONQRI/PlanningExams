@@ -19,6 +19,7 @@ protected:
         m_roles[TextRole] = "textRole";
         m_roles[Rel1Role] = "rel1Role";
         m_roles[Rel2Role] = "rel2Role";
+        m_roles[ColorRole] = "colorRole";
 
         return m_roles;
     }

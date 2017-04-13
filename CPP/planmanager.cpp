@@ -9,6 +9,7 @@ PlanManager::PlanManager(QObject *parent) : QObject(parent)
 }
 
 QStandardItemModel *PlanManager::getModel() const { return model; }
+QList<Plan *> *PlanManager::getPlansList() { return &plansList; }
 void PlanManager::createDatabse()
 {
     database = QSqlDatabase::addDatabase("QSQLITE");
@@ -19,7 +20,7 @@ void PlanManager::createDatabse()
 
     query->exec(
         "CREATE TABLE IF NOT EXISTS plans(id INTEGER, name STRING, rel1 "
-        "INTEGER, rel2 INTEGER)");
+        "INTEGER, rel2 INTEGER, color INTEGER, colorlist STRING)");
 
     query->exec("SELECT DISTINCT id FROM plans ORDER  BY id ASC");
     lastIDInDatabase = query->last() ? query->value(0).toInt() : -1;
@@ -45,6 +46,11 @@ int PlanManager::idFromIndex(const int &role)
         return role;
     else
         return model->item(role)->data(IDRole).toInt();
+}
+
+QList<int> PlanManager::getAvailableColors(const int &id)
+{
+    return findPlan(id)->availableColors;
 }
 
 void PlanManager::connectPlans()
