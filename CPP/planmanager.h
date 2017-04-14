@@ -39,6 +39,8 @@ private:
     inline int idFromIndex(const int &role);
 
 public slots:
+    void clear();
+
     int searchPlansIndex(const int &id);
     QList<int> getAvailableColors(const int &id);
 
