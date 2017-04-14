@@ -72,7 +72,6 @@ void Programmer::paint()
     for (int color = 0; color < deltaG + 1 && !isFinished(); color++)
         {
             colorsArray.push_back(color);
-
             for (int vertexIndex = 0; vertexIndex < size; vertexIndex++)
                 {
                     if (isPossible(vertexIndex, color, size) ||
@@ -112,6 +111,7 @@ void Programmer::setAvailableColors()
 void Programmer::changeColor(int index, int color)
 {
     verticesList->at(index)->currentColor = color;
+    //        verticesList->at(index)->updateInDatabse();
     verticesColor[index] = color;
     setAvailableColors();
 }
@@ -120,6 +120,8 @@ void Programmer::addColor(int index)
 {
     int color = colorsArray.size();
     verticesList->at(index)->currentColor = color;
+    //        verticesList->at(index)->updateInDatabse();
+
     colorsArray.push_back(color);
     verticesColor[index] = color;
     setAvailableColors();
