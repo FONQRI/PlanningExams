@@ -20,8 +20,8 @@ class Plan
 public:
     int identifier;
     QString name;
-    Plan const *firstRelation = nullptr;
-    Plan const *secondRelation = nullptr;
+    Plan *firstRelation = nullptr;
+    Plan *secondRelation = nullptr;
 
     int currentColor = -1;
     QList<int> availableColors;

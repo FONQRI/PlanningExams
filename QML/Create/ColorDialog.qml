@@ -52,9 +52,9 @@ Popup {
             text: "+"
             width: parent.width
             onClicked: {
-                Programmer.addColor(PlanManager.searchPlansIndex(currentID))
-                rep.model = PlanManager.getAvailableColors(currentID)
-                print(PlanManager.getAvailableColors(currentID))
+                Programmer.addColor(PlanManager.searchPlansIndex(currentID));
+                rep.model = PlanManager.getAvailableColors(currentID);
+                print(PlanManager.getAvailableColors(currentID));
             }
         }
     }
