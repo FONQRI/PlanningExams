@@ -57,6 +57,20 @@ int PlanManager::idFromIndex(const int &role)
         return model->item(role)->data(IDRole).toInt();
 }
 
+void PlanManager::clear()
+{
+    for (Plan *P : plansList)
+        {
+            delete P;
+            P = nullptr;
+        }
+
+    plansList.clear();
+    query->exec("DELETE FROM plans");
+    model->clear();
+    lastIDInDatabase = 0;
+}
+
 QList<int> PlanManager::getAvailableColors(const int &id)
 {
     return findPlan(id)->availableColors;

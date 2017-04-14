@@ -1,8 +1,40 @@
 import QtQuick 2.8
 import QtQuick.Controls 2.1
+import Qt.labs.settings 1.0
+import QtQuick.Layouts 1.3
 
 Page {
     id: page
+
+    Settings {
+        property alias confirmed: page.confirmed
+    }
+
+    property bool confirmed: false
+
+    footer: RowLayout {
+        spacing: 0
+        Button {
+            text: "Confirm"
+            visible: !confirmed
+            Layout.fillWidth: true
+
+            onClicked: {
+                confirmed = true
+                Programmer.paint()
+            }
+        }
+
+        Button {
+            text: "Clear"
+            Layout.fillWidth: true
+
+            onClicked: {
+                confirmed = false
+                PlanManager.clear()
+            }
+        }
+    }
 
     header: ToolBar {
         id: topbar
@@ -27,6 +59,7 @@ Page {
         id: listview
         model: PlanModel
         anchors.fill: parent
+        clip: true
 
         delegate: MainDelegate {
             text: textRole
@@ -77,6 +110,7 @@ Page {
             }
 
             MenuItem {
+                visible: confirmed
                 text: "Choose Color"
                 onClicked: {
                     cd.currentID = menu.id

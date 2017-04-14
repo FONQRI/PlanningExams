@@ -54,6 +54,7 @@ Popup {
             onClicked: {
                 Programmer.addColor(PlanManager.searchPlansIndex(currentID))
                 rep.model = PlanManager.getAvailableColors(currentID)
+                print(PlanManager.getAvailableColors(currentID))
             }
         }
     }
