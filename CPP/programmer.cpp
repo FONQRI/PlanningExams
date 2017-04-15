@@ -1,8 +1,9 @@
 #include "programmer.h"
 #include <iostream>
-Programmer::Programmer(QList<Plan *> *verticesList, QObject *parent)
+Programmer::Programmer(QList<Plan *> *verticesList ,QSqlQuery * query, QObject *parent)
     : QObject(parent)
 {
+    query = this->query;
     this->verticesList = verticesList;
 
     for (Plan *plan : *verticesList)
@@ -66,7 +67,6 @@ void Programmer::paint()
             if (verticesList->at(i)->secondRelation != nullptr)
                 connectionArray[i][verticesList->indexOf(const_cast<Plan *>(
                     verticesList->at(i)->secondRelation))] = 0;
-            //        verticesList->at(i)->updateInDatabse();
         }
 
     for (int color = 0; color < deltaG + 1 && !isFinished(); color++)
@@ -78,7 +78,7 @@ void Programmer::paint()
                         verticesColor[vertexIndex] != -1)
                         {
                             verticesList->at(vertexIndex)->currentColor = color;
-                            //        verticesList->at(vertexIndex)->updateInDatabse();
+                                   verticesList->at(vertexIndex)->updateInDatabse(query);
                         }
                 }
 
@@ -93,7 +93,7 @@ void Programmer::setAvailableColors()
     for (Plan *plan : *verticesList)
         {
             plan->availableColors.clear();
-            //        plan->updateInDatabse();
+                   plan->updateInDatabse(query);
         }
 
     for (int color : colorsArray)
@@ -103,7 +103,7 @@ void Programmer::setAvailableColors()
                     {
                         verticesList->at(vertexIndex)
                             ->availableColors.push_back(color);
-                        //        verticesList->at(vertexIndex)->updateInDatabse();
+                               verticesList->at(vertexIndex)->updateInDatabse(query);
                     }
             }
 }
@@ -111,7 +111,6 @@ void Programmer::setAvailableColors()
 void Programmer::changeColor(int index, int color)
 {
     verticesList->at(index)->currentColor = color;
-    //        verticesList->at(index)->updateInDatabse();
     verticesColor[index] = color;
     setAvailableColors();
 }
@@ -120,8 +119,6 @@ void Programmer::addColor(int index)
 {
     int color = colorsArray.size();
     verticesList->at(index)->currentColor = color;
-    //        verticesList->at(index)->updateInDatabse();
-
     colorsArray.push_back(color);
     verticesColor[index] = color;
     setAvailableColors();
