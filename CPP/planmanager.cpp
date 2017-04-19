@@ -11,14 +11,15 @@ PlanManager::PlanManager(QObject *parent) : QObject(parent)
 PlanManager::~PlanManager()
 {
     for (Plan *P : plansList)
-        {
-            delete P;
-            P = nullptr;
-        }
+    {
+        delete P;
+        P = nullptr;
+    }
 }
 
 QStandardItemModel *PlanManager::getModel() const { return model; }
 QList<Plan *> *PlanManager::getPlansList() { return &plansList; }
+QSqlQuery *PlanManager::getQuery() const { return query; }
 void PlanManager::createDatabse()
 {
     database = QSqlDatabase::addDatabase("QSQLITE");
@@ -60,10 +61,10 @@ int PlanManager::idFromIndex(const int &role)
 void PlanManager::clear()
 {
     for (Plan *P : plansList)
-        {
-            delete P;
-            P = nullptr;
-        }
+    {
+        delete P;
+        P = nullptr;
+    }
 
     plansList.clear();
     query->exec("DELETE FROM plans");
@@ -71,21 +72,25 @@ void PlanManager::clear()
     lastIDInDatabase = 0;
 }
 
-QList<int> PlanManager::getAvailableColors(const int &id)
+QVariantList PlanManager::getAvailableColors(const int &id)
 {
-    return findPlan(id)->availableColors;
+    QVariantList list;
+    QList<int> ac = findPlan(id)->availableColors;
+
+    for (int &I : ac) list << I;
+    return list;
 }
 
 void PlanManager::connectPlans()
 {
     for (Plan *P : plansList)
         for (Plan *PP : plansList)
-            {
-                if (PP->temporaryFirstRelation == P->identifier)
-                    PP->firstRelation = P;
-                if (PP->temprarySecondRelation == P->identifier)
-                    PP->secondRelation = P;
-            }
+        {
+            if (PP->temporaryFirstRelation == P->identifier)
+                PP->firstRelation = P;
+            if (PP->temprarySecondRelation == P->identifier)
+                PP->secondRelation = P;
+        }
 }
 
 Plan *PlanManager::findPlan(const int &id)
@@ -101,10 +106,10 @@ int PlanManager::searchPlansIndex(const int &id)
     int count = 0;
 
     for (Plan *P : plansList)
-        {
-            if (P->identifier == id) return count;
-            ++count;
-        }
+    {
+        if (P->identifier == id) return count;
+        ++count;
+    }
 
     return -1;
 }
@@ -155,10 +160,10 @@ void PlanManager::removeItem(const int &index)
     Plan *DP = plansList[idx];
 
     for (Plan *P : plansList)
-        {
-            if (P->firstRelation == DP) P->firstRelation = nullptr;
-            if (P->secondRelation == DP) P->secondRelation = nullptr;
-        }
+    {
+        if (P->firstRelation == DP) P->firstRelation = nullptr;
+        if (P->secondRelation == DP) P->secondRelation = nullptr;
+    }
 
     if (idx >= 0) plansList.removeAt(idx);
 

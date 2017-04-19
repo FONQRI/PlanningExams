@@ -25,10 +25,11 @@ public:
     vector<int> colorsArray;
 
 private:
-    vector<int> verticesColor;
     QSqlQuery *query;
-    //  std::vector<int>::iterator it;
     QList<Plan *> *verticesList;
+
+    vector<int> verticesColor;
+
     bool isFinished();
     bool isPossible(int index, int color, int size);
 

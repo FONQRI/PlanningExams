@@ -8,12 +8,12 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    PlanManager PP;
-    Programmer P(PP.getPlansList());
+    PlanManager PM;
+    Programmer P(PM.getPlansList(), PM.getQuery());
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("PlanManager", &PP);
+    engine.rootContext()->setContextProperty("PlanManager", &PM);
     engine.rootContext()->setContextProperty("Programmer", &P);
-    engine.rootContext()->setContextProperty("PlanModel", PP.getModel());
+    engine.rootContext()->setContextProperty("PlanModel", PM.getModel());
     engine.load(QUrl(QLatin1String("qrc:/QML/main.qml")));
     return app.exec();
 }

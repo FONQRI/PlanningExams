@@ -23,23 +23,26 @@ Popup {
 
             Grid {
                 id: grid
-                width: parent.width
                 spacing: 10
+                width: parent.width
 
                 Repeater {
                     id: rep
 
-                    delegate: Rectangle {
-                        implicitWidth: 40
-                        implicitHeight: 40
-                        antialiasing: true
-                        radius: width
-                        border.color: "black"
-                        color: "transparent"
+                    delegate: AbstractButton {
 
-                        Label {
-                            anchors.fill: parent
-                            text: currentColor == -1 ? "?":currentColor
+                        background: Rectangle {
+                            implicitWidth: 40
+                            implicitHeight: 40
+
+                            radius: width
+                            antialiasing: true
+                            border.color: "black"
+                            color: "transparent"
+                        }
+
+                        contentItem: Label {
+                            text: modelData
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                         }
@@ -54,7 +57,6 @@ Popup {
             onClicked: {
                 Programmer.addColor(PlanManager.searchPlansIndex(currentID));
                 rep.model = PlanManager.getAvailableColors(currentID);
-                print(PlanManager.getAvailableColors(currentID));
             }
         }
     }

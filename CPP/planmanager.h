@@ -23,6 +23,8 @@ public:
     QStandardItemModel *getModel() const;
     QList<Plan *> *getPlansList();
 
+    QSqlQuery *getQuery() const;
+
 private:
     QSqlQuery *query;
     int lastIDInDatabase;
@@ -42,7 +44,7 @@ public slots:
     void clear();
 
     int searchPlansIndex(const int &id);
-    QList<int> getAvailableColors(const int &id);
+    QVariantList getAvailableColors(const int &id);
 
     int searchModel(const QString &name);
     void removeItem(const int &index);
