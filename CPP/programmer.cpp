@@ -1,32 +1,33 @@
 #include "programmer.h"
 #include <iostream>
-Programmer::Programmer(QList<Plan *> *verticesList ,QSqlQuery * query, QObject *parent)
+Programmer::Programmer(QList<Plan *> *verticesList, QSqlQuery *query,
+                       QObject *parent)
     : QObject(parent)
 {
-    query = this->query;
+    this->query = query;
     this->verticesList = verticesList;
 
     for (Plan *plan : *verticesList)
-        {
-            verticesColor.push_back(plan->currentColor);
-        }
+    {
+        verticesColor.push_back(plan->currentColor);
+    }
 
     for (int color : verticesColor)
-        {
-            std::vector<int>::iterator it;
-            it = find(colorsArray.begin(), colorsArray.end(), color);
-            if (it == colorsArray.end() && color != -1)
-                colorsArray.push_back(color);
-        }
+    {
+        std::vector<int>::iterator it;
+        it = find(colorsArray.begin(), colorsArray.end(), color);
+        if (it == colorsArray.end() && color != -1)
+            colorsArray.push_back(color);
+    }
 }
 bool Programmer::isFinished()
 {
     int ti;
     for (int i : verticesColor)
-        {
-            if (i == -1) return false;
-            ti = i;
-        }
+    {
+        if (i == -1) return false;
+        ti = i;
+    }
 
     return true;
 }
@@ -47,43 +48,43 @@ void Programmer::paint()
     for (unsigned int i = 0; i < size; i++) verticesColor.push_back(-1);
 
     for (unsigned int j = 0; j < size; j++)
-        {
-            vector<int> tempVector;
+    {
+        vector<int> tempVector;
 
-            for (int i = 0; i < size; i++)
-                if (i != j)
-                    tempVector.push_back(1);
-                else
-                    tempVector.push_back(0);
+        for (int i = 0; i < size; i++)
+            if (i != j)
+                tempVector.push_back(1);
+            else
+                tempVector.push_back(0);
 
-            connectionArray.push_back(tempVector);
-        }
+        connectionArray.push_back(tempVector);
+    }
 
     for (int i = 0; i < size; i++)
-        {
-            if (verticesList->at(i)->firstRelation != nullptr)
-                connectionArray[i][verticesList->indexOf(const_cast<Plan *>(
-                    verticesList->at(i)->firstRelation))] = 0;
-            if (verticesList->at(i)->secondRelation != nullptr)
-                connectionArray[i][verticesList->indexOf(const_cast<Plan *>(
-                    verticesList->at(i)->secondRelation))] = 0;
-        }
+    {
+        if (verticesList->at(i)->firstRelation != nullptr)
+            connectionArray[i][verticesList->indexOf(
+                const_cast<Plan *>(verticesList->at(i)->firstRelation))] = 0;
+        if (verticesList->at(i)->secondRelation != nullptr)
+            connectionArray[i][verticesList->indexOf(
+                const_cast<Plan *>(verticesList->at(i)->secondRelation))] = 0;
+    }
 
     for (int color = 0; color < deltaG + 1 && !isFinished(); color++)
+    {
+        colorsArray.push_back(color);
+        for (int vertexIndex = 0; vertexIndex < size; vertexIndex++)
         {
-            colorsArray.push_back(color);
-            for (int vertexIndex = 0; vertexIndex < size; vertexIndex++)
-                {
-                    if (isPossible(vertexIndex, color, size) ||
-                        verticesColor[vertexIndex] != -1)
-                        {
-                            verticesList->at(vertexIndex)->currentColor = color;
-                                   verticesList->at(vertexIndex)->updateInDatabse(query);
-                        }
-                }
-
-            if (isFinished()) break;
+            if (isPossible(vertexIndex, color, size) ||
+                verticesColor[vertexIndex] != -1)
+            {
+                verticesList->at(vertexIndex)->currentColor = color;
+                verticesList->at(vertexIndex)->updateInDatabse(query);
+            }
         }
+
+        if (isFinished()) break;
+    }
 
     setAvailableColors();
 }
@@ -91,21 +92,20 @@ void Programmer::paint()
 void Programmer::setAvailableColors()
 {
     for (Plan *plan : *verticesList)
-        {
-            plan->availableColors.clear();
-                   plan->updateInDatabse(query);
-        }
+    {
+        plan->availableColors.clear();
+        plan->updateInDatabse(query);
+    }
 
     for (int color : colorsArray)
         for (int vertexIndex = 0; vertexIndex < size; vertexIndex++)
+        {
+            if (isPossible(vertexIndex, color, size))
             {
-                if (isPossible(vertexIndex, color, size))
-                    {
-                        verticesList->at(vertexIndex)
-                            ->availableColors.push_back(color);
-                               verticesList->at(vertexIndex)->updateInDatabse(query);
-                    }
+                verticesList->at(vertexIndex)->availableColors.push_back(color);
+                verticesList->at(vertexIndex)->updateInDatabse(query);
             }
+        }
 }
 
 void Programmer::changeColor(int index, int color)
