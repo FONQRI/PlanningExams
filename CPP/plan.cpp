@@ -39,18 +39,20 @@ void Plan::addToDatabase(QSqlQuery *query)
 void Plan::updateInDatabse(QSqlQuery *query)
 {
     QString ps =
-        "UPDATE plans SET rel1=?, rel2=?, name=? WHERE id=?, color=?, "
-        "colorlist=?";
+        "UPDATE plans SET rel1=?, rel2=?, name=?, color=?, colorlist=? WHERE "
+        "id=?";
     query->prepare(ps);
 
     query->bindValue(0,
                      firstRelation == nullptr ? -1 : firstRelation->identifier);
+
     query->bindValue(
         1, secondRelation == nullptr ? -1 : secondRelation->identifier);
+
     query->bindValue(2, name);
-    query->bindValue(3, identifier);
-    query->bindValue(4, currentColor);
-    query->bindValue(5, colorsListToString());
+    query->bindValue(3, currentColor);
+    query->bindValue(4, colorsListToString());
+    query->bindValue(5, identifier);
 
     query->exec();
 }

@@ -33,7 +33,6 @@ private:
     QStandardItemModel *model;
 
     void createDatabse();
-    void databseToModel();
 
     void connectPlans();
 
@@ -42,6 +41,7 @@ private:
 
 public slots:
     void clear();
+    void databseToModel();
 
     int searchPlansIndex(const int &id);
     QVariantList getAvailableColors(const int &id);

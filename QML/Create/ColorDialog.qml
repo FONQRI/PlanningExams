@@ -31,6 +31,12 @@ Popup {
 
                     delegate: AbstractButton {
 
+                        onClicked: {
+                            popup.close()
+                            Programmer.changeColor(PlanManager.searchPlansIndex(currentID)
+                                                   , parseInt(modelData))
+                        }
+
                         background: Rectangle {
                             implicitWidth: 40
                             implicitHeight: 40

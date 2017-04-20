@@ -22,6 +22,7 @@ Page {
             onClicked: {
                 confirmed = true
                 Programmer.paint()
+                PlanManager.databseToModel()
             }
         }
 
@@ -66,6 +67,7 @@ Page {
             width: parent.width
             rel1Text: rel1Role
             rel2Text: rel2Role
+            currentColor: colorRole
 
             onRequestMenu: {
                 menu.x = x-listview.contentX-menu.width
