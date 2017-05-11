@@ -19,9 +19,9 @@ class Programmer : public QObject
 public:
     explicit Programmer(QList<Plan *> *verticesList, QSqlQuery *query,
                         QObject *parent = 0);
-    unsigned int size;
+	int size;
     vector<vector<int>> connectionArray;
-    unsigned int deltaG;
+	int deltaG;
     vector<int> colorsArray;
 
 private:
@@ -32,7 +32,6 @@ private:
 
     bool isFinished();
     bool isPossible(int index, int color, int size);
-
 signals:
 
 public slots:
