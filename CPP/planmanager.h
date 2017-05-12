@@ -54,6 +54,8 @@ public slots:
 
     void editItem(const int &index, const QString &text, const int &relation1,
                   const int &relation2);
+
+	void updateItem(const int &index);
 };
 
 #endif  // PLANMANAGER_H

@@ -117,6 +117,7 @@ Page {
                 onClicked: {
                     cd.currentID = menu.id
                     cd.currentColor = menu.color
+					cd.currentIndex = menu.currentIndex
                     cd.open()
                 }
             }
