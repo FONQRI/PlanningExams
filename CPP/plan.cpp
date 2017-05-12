@@ -71,9 +71,9 @@ Plan *Plan::fromRecord(const QSqlRecord &record)
     return P;
 }
 
-QStandardItem *Plan::toItem()
+QStandardItem *Plan::toItem(QStandardItem *it)
 {
-    QStandardItem *item = new QStandardItem;
+	QStandardItem *item = it == nullptr ? new QStandardItem : it;
 
     item->setData(identifier, IDRole);
     item->setData(name, TextRole);

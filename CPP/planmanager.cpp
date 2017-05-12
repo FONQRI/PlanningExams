@@ -193,5 +193,13 @@ void PlanManager::editItem(const int &index, const QString &text,
                   Rel2Role);
     item->setData(text, TextRole);
 
-    if (sort) model->sort(0);
+	if (sort) model->sort(0);
+}
+
+void PlanManager::updateItem(const int &index)
+{
+	QStandardItem *item = model->item(index);
+	Plan *P = findPlan(item->data(IDRole).toInt());
+
+	P->toItem(item);
 }

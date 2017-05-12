@@ -12,6 +12,7 @@ Popup {
 
     onOpened: rep.model = PlanManager.getAvailableColors(currentID)
 
+	property int currentIndex
     property int planIndex
     property int currentColor
     property int currentID
@@ -35,6 +36,8 @@ Popup {
                             popup.close()
                             Programmer.changeColor(PlanManager.searchPlansIndex(currentID)
                                                    , parseInt(modelData))
+
+							PlanManager.updateItem(currentIndex)
                         }
 
                         background: Rectangle {

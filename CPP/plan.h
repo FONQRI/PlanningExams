@@ -39,7 +39,7 @@ public:
     void updateInDatabse(QSqlQuery *query);
     static Plan *fromRecord(const QSqlRecord &record);
 
-    QStandardItem *toItem();
+	QStandardItem *toItem(QStandardItem *it = nullptr);
 };
 
 #endif  // PLAN_H
