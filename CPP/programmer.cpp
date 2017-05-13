@@ -147,7 +147,7 @@ void Programmer::setAvailableColors()
 	for (Plan *plan : *verticesList)
 	{
 		plan->availableColors.clear();
-		plan->updateInDatabse(query);
+		plan->updateColorInDatabse(query);
 	}
 
 	for (int color : colorsArray)
@@ -156,7 +156,7 @@ void Programmer::setAvailableColors()
 			if (isPossible(vertexIndex, color, size))
 			{
 				verticesList->at(vertexIndex)->availableColors.push_back(color);
-				verticesList->at(vertexIndex)->updateInDatabse(query);
+				verticesList->at(vertexIndex)->updateColorListInDatabse(query);
 			}
 		}
 }

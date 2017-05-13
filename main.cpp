@@ -3,8 +3,21 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <fstream>   // std::ofstream
+#include <iostream>  //std::clog
+#ifdef _DEBUG
+const bool is_debig = true;
+#else
+const bool is_debig = false;
+#endif
 int main(int argc, char *argv[])
 {
+	if (!is_debig)
+	{
+		std::ofstream nullstream;
+		std::clog.rdbuf(nullstream.rdbuf());
+	}
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
