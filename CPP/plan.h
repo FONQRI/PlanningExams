@@ -37,6 +37,8 @@ public:
 
     void addToDatabase(QSqlQuery *query);
     void updateInDatabse(QSqlQuery *query);
+	void updateColorInDatabse(QSqlQuery *query);
+	void updateColorListInDatabse(QSqlQuery *query);
     static Plan *fromRecord(const QSqlRecord &record);
 
 	QStandardItem *toItem(QStandardItem *it = nullptr);

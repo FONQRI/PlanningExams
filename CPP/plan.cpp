@@ -39,7 +39,7 @@ void Plan::addToDatabase(QSqlQuery *query)
 void Plan::updateInDatabse(QSqlQuery *query)
 {
     QString ps =
-        "UPDATE plans SET rel1=?, rel2=?, name=?, color=?, colorlist=? WHERE "
+		"UPDATE plans SET rel1=?, rel2=?, name=? WHERE "
         "id=?";
     query->prepare(ps);
 
@@ -49,12 +49,34 @@ void Plan::updateInDatabse(QSqlQuery *query)
     query->bindValue(
         1, secondRelation == nullptr ? -1 : secondRelation->identifier);
 
-    query->bindValue(2, name);
-    query->bindValue(3, currentColor);
-    query->bindValue(4, colorsListToString());
-    query->bindValue(5, identifier);
+	query->bindValue(2, name);
+	query->bindValue(3, identifier);
 
-    query->exec();
+	query->exec();
+}
+
+void Plan::updateColorInDatabse(QSqlQuery *query)
+{
+	query->prepare(
+		"UPDATE plans SET color=? WHERE "
+		"id=?");
+
+	query->bindValue(0, currentColor);
+	query->bindValue(1, identifier);
+
+	query->exec();
+}
+
+void Plan::updateColorListInDatabse(QSqlQuery *query)
+{
+	query->prepare(
+		"UPDATE plans SET colorlist=? WHERE "
+		"id=?");
+
+	query->bindValue(0, colorsListToString());
+	query->bindValue(1, identifier);
+
+	query->exec();
 }
 
 Plan *Plan::fromRecord(const QSqlRecord &record)
