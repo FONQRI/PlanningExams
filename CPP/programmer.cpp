@@ -131,7 +131,7 @@ void Programmer::paint()
 			{
 				verticesList->at(vertexIndex)->currentColor = color;
 				verticesColor[vertexIndex] = color;
-				verticesList->at(vertexIndex)->updateInDatabse(query);
+				verticesList->at(vertexIndex)->updateColorInDatabse(query);
 			}
 		}
 
