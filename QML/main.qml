@@ -3,11 +3,11 @@ import QtQuick.Controls 2.0
 import "Create"
 
 ApplicationWindow {
-    visible: true
-    width: 400
-    height: 600
-    title: qsTr("PlaningExams")
-    MainListPage {
-        anchors.fill: parent
-    }
+	visible: true
+	width: 400
+	height: 600
+	title: qsTr("PlaningExams")
+	MainListPage {
+		anchors.fill: parent
+	}
 }

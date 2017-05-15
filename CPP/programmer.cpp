@@ -118,7 +118,7 @@ void Programmer::paint()
 	{
 		std::clog << std::endl;
 		for (int j = 0; j < size; j++) std::clog << connectionArray.at(i).at(j);
-    }
+	}
 	std::clog << std::endl << "printing array finished" << std::endl;
 
 	for (int color = 0; !isFinished(); color++)

@@ -3,91 +3,91 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.1
 
 ItemDelegate {
-    id: control
-    spacing: 6
-    property bool expand: expandButton.checked
+	id: control
+	spacing: 6
+	property bool expand: expandButton.checked
 
-    property alias rel1Text: rel1Label.text
-    property alias rel2Text: rel2Label.text
-    property int currentColor: -1
+	property alias rel1Text: rel1Label.text
+	property alias rel2Text: rel2Label.text
+	property int currentColor: -1
 
-    signal requestMenu(int x, int y)
+	signal requestMenu(int x, int y)
 
-    contentItem: RowLayout {
-        spacing: control.spacing/2
+	contentItem: RowLayout {
+		spacing: control.spacing/2
 
-        Column {
-            id: column
-            Layout.fillWidth: true
-            spacing: control.spacing
+		Column {
+			id: column
+			Layout.fillWidth: true
+			spacing: control.spacing
 
-            Label {
-                id: topLabel
-                text: control.text
-                width: parent.width
-                elide: Text.ElideRight // TODO elide left
-                font.pointSize: control.font.pointSize+2
-            }
+			Label {
+				id: topLabel
+				text: control.text
+				width: parent.width
+				elide: Text.ElideRight // TODO elide left
+				font.pointSize: control.font.pointSize+2
+			}
 
-            Column {
-                clip: true
-                width: parent.width
-                spacing: control.spacing/2
-                height: expand ? implicitHeight:0
-                Behavior on height { NumberAnimation { easing.type: Easing.OutQuad } }
+			Column {
+				clip: true
+				width: parent.width
+				spacing: control.spacing/2
+				height: expand ? implicitHeight:0
+				Behavior on height { NumberAnimation { easing.type: Easing.OutQuad } }
 
-                Label {
-                    id: rel1Label
-                    visible: text
-                    width: parent.width
-                    elide: Text.ElideRight // TODO elide left
-                }
+				Label {
+					id: rel1Label
+					visible: text
+					width: parent.width
+					elide: Text.ElideRight // TODO elide left
+				}
 
-                Label {
-                    id: rel2Label
-                    visible: text
-                    width: parent.width
-                    elide: Text.ElideRight // TODO elide left
-                }
-            }
-        }
+				Label {
+					id: rel2Label
+					visible: text
+					width: parent.width
+					elide: Text.ElideRight // TODO elide left
+				}
+			}
+		}
 
-        Rectangle {
-            implicitWidth: 40
-            implicitHeight: 40
-            antialiasing: true
-            radius: width
-            border.color: "black"
-            color: "transparent"
+		Rectangle {
+			implicitWidth: 40
+			implicitHeight: 40
+			antialiasing: true
+			radius: width
+			border.color: "black"
+			color: "transparent"
 
-            Label {
-                anchors.fill: parent
-                text: currentColor == -1 ? "?":currentColor
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-            }
-        }
+			Label {
+				anchors.fill: parent
+				text: currentColor == -1 ? "?":currentColor
+				verticalAlignment: Text.AlignVCenter
+				horizontalAlignment: Text.AlignHCenter
+			}
+		}
 
-        RoundButton {
-            id: expandButton
-            text: "\u2304"
-            checkable: true
-            visible: rel1Text || rel2Text
-        }
+		RoundButton {
+			id: expandButton
+			text: "\u2304"
+			checkable: true
+			visible: rel1Text || rel2Text
+		}
 
-        RoundButton {
-            id: menuButton
-            text: "⋮"
-            anchors.verticalCenter: parent.verticalCenter
-            onClicked: requestMenu(x+control.leftPadding+control.x+width/2,
-                                   y+control.y+control.topPadding+height/2)
-        }
-    }
+		RoundButton {
+			id: menuButton
+			text: "⋮"
+			anchors.verticalCenter: parent.verticalCenter
+			onClicked: requestMenu(x+control.leftPadding+control.x+width/2,
+								   y+control.y+control.topPadding+height/2)
+		}
+	}
 
-    Rectangle {
-        color: "black"
-        height: 1
-        width: parent.width
-        anchors.bottom: parent.bottom
-    }
+	Rectangle {
+		color: "black"
+		height: 1
+		width: parent.width
+		anchors.bottom: parent.bottom
+	}
 }

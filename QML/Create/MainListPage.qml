@@ -4,123 +4,123 @@ import Qt.labs.settings 1.0
 import QtQuick.Layouts 1.3
 
 Page {
-    id: page
+	id: page
 
-    Settings {
-        property alias confirmed: page.confirmed
-    }
+	Settings {
+		property alias confirmed: page.confirmed
+	}
 
-    property bool confirmed: false
+	property bool confirmed: false
 
-    footer: RowLayout {
-        spacing: 0
-        Button {
-            text: "Confirm"
-            visible: !confirmed
-            Layout.fillWidth: true
+	footer: RowLayout {
+		spacing: 0
+		Button {
+			text: "Confirm"
+			visible: !confirmed
+			Layout.fillWidth: true
 
-            onClicked: {
-                confirmed = true
-                Programmer.paint()
-                PlanManager.databseToModel()
-            }
-        }
+			onClicked: {
+				confirmed = true
+				Programmer.paint()
+				PlanManager.databseToModel()
+			}
+		}
 
-        Button {
-            text: "Clear"
-            Layout.fillWidth: true
+		Button {
+			text: "Clear"
+			Layout.fillWidth: true
 
-            onClicked: {
-                confirmed = false
-                PlanManager.clear()
-            }
-        }
-    }
+			onClicked: {
+				confirmed = false
+				PlanManager.clear()
+			}
+		}
+	}
 
-    header: ToolBar {
-        id: topbar
+	header: ToolBar {
+		id: topbar
 
-        contentItem: Label {
-            text: "The List"
-            font.pointSize: topbar.font.pointSize+5
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }
-    }
+		contentItem: Label {
+			text: "The List"
+			font.pointSize: topbar.font.pointSize+5
+			verticalAlignment: Text.AlignVCenter
+			horizontalAlignment: Text.AlignHCenter
+		}
+	}
 
-    AddItemDialog {
-        id: aid
-    }
+	AddItemDialog {
+		id: aid
+	}
 
-    ColorDialog {
-        id: cd
-    }
+	ColorDialog {
+		id: cd
+	}
 
-    ListView {
-        id: listview
-        model: PlanModel
-        anchors.fill: parent
-        clip: true
+	ListView {
+		id: listview
+		model: PlanModel
+		anchors.fill: parent
+		clip: true
 
-        delegate: MainDelegate {
-            text: textRole
-            width: parent.width
-            rel1Text: rel1Role
-            rel2Text: rel2Role
-            currentColor: colorRole
+		delegate: MainDelegate {
+			text: textRole
+			width: parent.width
+			rel1Text: rel1Role
+			rel2Text: rel2Role
+			currentColor: colorRole
 
-            onRequestMenu: {
-                menu.x = x-listview.contentX-menu.width
-                menu.y = y-listview.contentY
-                menu.currentIndex = index
-                menu.name = textRole
-                menu.color = colorRole
-                menu.id = idRole
-                menu.rel1 = PlanManager.searchModel(rel1Role)
-                menu.rel2 = PlanManager.searchModel(rel2Role)
-                menu.open()
-            }
-        }
+			onRequestMenu: {
+				menu.x = x-listview.contentX-menu.width
+				menu.y = y-listview.contentY
+				menu.currentIndex = index
+				menu.name = textRole
+				menu.color = colorRole
+				menu.id = idRole
+				menu.rel1 = PlanManager.searchModel(rel1Role)
+				menu.rel2 = PlanManager.searchModel(rel2Role)
+				menu.open()
+			}
+		}
 
-        ViewButton {
-            text: "+"
-            onClicked: aid.open()
-        }
+		ViewButton {
+			text: "+"
+			onClicked: aid.open()
+		}
 
-        Menu {
-            id: menu
-            property int currentIndex: -1
-            property string name
-            property int rel1
-            property int rel2
-            property int color
-            property int id
+		Menu {
+			id: menu
+			property int currentIndex: -1
+			property string name
+			property int rel1
+			property int rel2
+			property int color
+			property int id
 
-            MenuItem {
-                text: "Edit"
-                onClicked: {
-                    aid.edit = true
-                    aid.currrentIndex = menu.currentIndex
-                    aid.setValues(menu.name, menu.rel1, menu.rel2)
-                    aid.open()
-                }
-            }
+			MenuItem {
+				text: "Edit"
+				onClicked: {
+					aid.edit = true
+					aid.currrentIndex = menu.currentIndex
+					aid.setValues(menu.name, menu.rel1, menu.rel2)
+					aid.open()
+				}
+			}
 
-            MenuItem {
-                text: "Remove"
-                onClicked: PlanManager.removeItem(menu.currentIndex)
-            }
+			MenuItem {
+				text: "Remove"
+				onClicked: PlanManager.removeItem(menu.currentIndex)
+			}
 
-            MenuItem {
-                visible: confirmed
-                text: "Choose Color"
-                onClicked: {
-                    cd.currentID = menu.id
-                    cd.currentColor = menu.color
+			MenuItem {
+				visible: confirmed
+				text: "Choose Color"
+				onClicked: {
+					cd.currentID = menu.id
+					cd.currentColor = menu.color
 					cd.currentIndex = menu.currentIndex
-                    cd.open()
-                }
-            }
-        }
-    }
+					cd.open()
+				}
+			}
+		}
+	}
 }

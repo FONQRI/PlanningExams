@@ -8,38 +8,38 @@
 
 enum DataRoles
 {
-    IDRole = Qt::UserRole + 1,
-    TextRole = Qt::UserRole + 2,
-    Rel1Role = Qt::UserRole + 3,
-    Rel2Role = Qt::UserRole + 4,
-    ColorRole = Qt::UserRole + 5
+	IDRole = Qt::UserRole + 1,
+	TextRole = Qt::UserRole + 2,
+	Rel1Role = Qt::UserRole + 3,
+	Rel2Role = Qt::UserRole + 4,
+	ColorRole = Qt::UserRole + 5
 };
 
 class Plan
 {
 public:
-    int identifier;
-    QString name;
-    Plan *firstRelation = nullptr;
-    Plan *secondRelation = nullptr;
+	int identifier;
+	QString name;
+	Plan *firstRelation = nullptr;
+	Plan *secondRelation = nullptr;
 
-    int currentColor = -1;
-    QList<int> availableColors;
+	int currentColor = -1;
+	QList<int> availableColors;
 
-    int temporaryFirstRelation = -1;
-    int temprarySecondRelation = -1;
+	int temporaryFirstRelation = -1;
+	int temprarySecondRelation = -1;
 
-    Plan() {}
-    Plan(const int &identifier, const QString &name);
+	Plan() {}
+	Plan(const int &identifier, const QString &name);
 
-    QString colorsListToString();
-    void colorListFromString(const QString &text);
+	QString colorsListToString();
+	void colorListFromString(const QString &text);
 
-    void addToDatabase(QSqlQuery *query);
-    void updateInDatabse(QSqlQuery *query);
+	void addToDatabase(QSqlQuery *query);
+	void updateInDatabse(QSqlQuery *query);
 	void updateColorInDatabse(QSqlQuery *query);
 	void updateColorListInDatabse(QSqlQuery *query);
-    static Plan *fromRecord(const QSqlRecord &record);
+	static Plan *fromRecord(const QSqlRecord &record);
 
 	QStandardItem *toItem(QStandardItem *it = nullptr);
 };

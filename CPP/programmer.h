@@ -15,30 +15,30 @@ using std::vector;
 
 class Programmer : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit Programmer(QList<Plan *> *verticesList, QSqlQuery *query,
-                        QObject *parent = 0);
+	explicit Programmer(QList<Plan *> *verticesList, QSqlQuery *query,
+						QObject *parent = 0);
 	int size;
-    vector<vector<int>> connectionArray;
+	vector<vector<int>> connectionArray;
 	int deltaG;
-    vector<int> colorsArray;
+	vector<int> colorsArray;
 
 private:
-    QSqlQuery *query;
-    QList<Plan *> *verticesList;
+	QSqlQuery *query;
+	QList<Plan *> *verticesList;
 
-    vector<int> verticesColor;
+	vector<int> verticesColor;
 
-    bool isFinished();
-    bool isPossible(int index, int color, int size);
+	bool isFinished();
+	bool isPossible(int index, int color, int size);
 signals:
 
 public slots:
-    void paint();
-    void setAvailableColors();
-    void changeColor(int index, int color);
-    void addColor(int index);
+	void paint();
+	void setAvailableColors();
+	void changeColor(int index, int color);
+	void addColor(int index);
 };
 
 #endif  // PROGRAMMER_H

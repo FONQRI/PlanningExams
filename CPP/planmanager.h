@@ -14,46 +14,46 @@
 
 class PlanManager : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit PlanManager(QObject *parent = 0);
-    ~PlanManager();
+	explicit PlanManager(QObject *parent = 0);
+	~PlanManager();
 
-    QStandardItemModel *getModel() const;
-    QList<Plan *> *getPlansList();
+	QStandardItemModel *getModel() const;
+	QList<Plan *> *getPlansList();
 
-    QSqlQuery *getQuery() const;
+	QSqlQuery *getQuery() const;
 
 private:
-    QSqlQuery *query;
-    int lastIDInDatabase;
-    QSqlDatabase database;
-    QList<Plan *> plansList;
-    QStandardItemModel *model;
+	QSqlQuery *query;
+	int lastIDInDatabase;
+	QSqlDatabase database;
+	QList<Plan *> plansList;
+	QStandardItemModel *model;
 
-    void createDatabse();
+	void createDatabse();
 
-    void connectPlans();
+	void connectPlans();
 
-    Plan *findPlan(const int &id);
-    inline int idFromIndex(const int &role);
+	Plan *findPlan(const int &id);
+	inline int idFromIndex(const int &role);
 
 public slots:
-    void clear();
-    void databseToModel();
+	void clear();
+	void databseToModel();
 
-    int searchPlansIndex(const int &id);
-    QVariantList getAvailableColors(const int &id);
+	int searchPlansIndex(const int &id);
+	QVariantList getAvailableColors(const int &id);
 
-    int searchModel(const QString &name);
-    void removeItem(const int &index);
+	int searchModel(const QString &name);
+	void removeItem(const int &index);
 
-    void addItem(const QString &text, const int &relation1,
-                 const int &relation2);
+	void addItem(const QString &text, const int &relation1,
+				 const int &relation2);
 
-    void editItem(const int &index, const QString &text, const int &relation1,
-                  const int &relation2);
+	void editItem(const int &index, const QString &text, const int &relation1,
+				  const int &relation2);
 
 	void updateItem(const int &index);
 };
