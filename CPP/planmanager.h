@@ -41,6 +41,7 @@ private:
 
 public slots:
 	void clear();
+	void updateAllColors();
 	void databseToModel();
 
 	int searchPlansIndex(const int &id);

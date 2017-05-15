@@ -2,11 +2,9 @@
 #include <QDebug>
 #include <iostream>
 
-Programmer::Programmer(QList<Plan *> *verticesList, QSqlQuery *query,
-					   QObject *parent)
+Programmer::Programmer(QList<Plan *> *verticesList, QObject *parent)
 	: QObject(parent)
 {
-	this->query = query;
 	this->verticesList = verticesList;
 	std::clog << __LINE__ << "\t" << __FUNCTION__ << "\t" << __FILE__ << "\t"
 			  << "vertices colors\t" << std::endl;
@@ -131,7 +129,6 @@ void Programmer::paint()
 			{
 				verticesList->at(vertexIndex)->currentColor = color;
 				verticesColor[vertexIndex] = color;
-				verticesList->at(vertexIndex)->updateColorInDatabse(query);
 			}
 		}
 
@@ -144,21 +141,12 @@ void Programmer::paint()
 
 void Programmer::setAvailableColors()
 {
-	for (Plan *plan : *verticesList)
-	{
-		plan->availableColors.clear();
-		plan->updateColorInDatabse(query);
-	}
+	for (Plan *plan : *verticesList) plan->availableColors.clear();
 
 	for (int color : colorsArray)
 		for (int vertexIndex = 0; vertexIndex < size; vertexIndex++)
-		{
 			if (isPossible(vertexIndex, color, size))
-			{
 				verticesList->at(vertexIndex)->availableColors.push_back(color);
-				verticesList->at(vertexIndex)->updateColorListInDatabse(query);
-			}
-		}
 }
 
 void Programmer::changeColor(int index, int color)

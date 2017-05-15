@@ -22,6 +22,7 @@ Page {
 			onClicked: {
 				confirmed = true
 				Programmer.paint()
+				PlanManager.updateAllColors()
 				PlanManager.databseToModel()
 			}
 		}

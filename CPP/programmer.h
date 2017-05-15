@@ -17,15 +17,13 @@ class Programmer : public QObject
 {
 	Q_OBJECT
 public:
-	explicit Programmer(QList<Plan *> *verticesList, QSqlQuery *query,
-						QObject *parent = 0);
+	explicit Programmer(QList<Plan *> *verticesList, QObject *parent = 0);
 	int size;
 	vector<vector<int>> connectionArray;
 	int deltaG;
 	vector<int> colorsArray;
 
 private:
-	QSqlQuery *query;
 	QList<Plan *> *verticesList;
 
 	vector<int> verticesColor;
