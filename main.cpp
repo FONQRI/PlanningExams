@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 	QGuiApplication app(argc, argv);
 
 	PlanManager PM;
-	Programmer P(PM.getPlansList(), PM.getQuery());
+	Programmer P(PM.getPlansList());
 	QQmlApplicationEngine engine;
 	engine.rootContext()->setContextProperty("PlanManager", &PM);
 	engine.rootContext()->setContextProperty("Programmer", &P);

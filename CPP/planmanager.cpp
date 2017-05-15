@@ -72,6 +72,31 @@ void PlanManager::clear()
 	lastIDInDatabase = 0;
 }
 
+void PlanManager::updateAllColors()
+{
+	QVariantList ids;
+	QVariantList colors;
+	QVariantList colorlists;
+
+	for (Plan *P : plansList)
+	{
+		ids << P->identifier;
+		colors << P->currentColor;
+		colorlists << P->colorsListToString();
+	}
+
+	QString S("UPDATE plans SET color=?, colorlist=? WHERE id=?");
+	query->exec("BEGIN TRANSACTION");
+	query->prepare(S);
+
+	query->addBindValue(colors);
+	query->addBindValue(colorlists);
+	query->addBindValue(ids);
+
+	query->execBatch();
+	query->exec("COMMIT");
+}
+
 QVariantList PlanManager::getAvailableColors(const int &id)
 {
 	QVariantList list;
@@ -185,7 +210,7 @@ void PlanManager::editItem(const int &index, const QString &text,
 	P->firstRelation = findPlan(idFromIndex(relation1));
 	P->secondRelation = findPlan(idFromIndex(relation2));
 
-	P->updateInDatabse(query);
+	P->updateInDatabase(query);
 
 	item->setData(P->firstRelation == nullptr ? "" : P->firstRelation->name,
 				  Rel1Role);

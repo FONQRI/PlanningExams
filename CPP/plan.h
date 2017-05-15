@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QStandardItem>
+#include <QTime>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlRecord>
 
@@ -36,9 +37,7 @@ public:
 	void colorListFromString(const QString &text);
 
 	void addToDatabase(QSqlQuery *query);
-	void updateInDatabse(QSqlQuery *query);
-	void updateColorInDatabse(QSqlQuery *query);
-	void updateColorListInDatabse(QSqlQuery *query);
+	void updateInDatabase(QSqlQuery *query);
 	static Plan *fromRecord(const QSqlRecord &record);
 
 	QStandardItem *toItem(QStandardItem *it = nullptr);
