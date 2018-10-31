@@ -69,7 +69,7 @@ Popup {
 
 				ComboBox {
 					id: combo1
-					model: PlanModel
+                    model: planModel
 					textRole: "textRole"
 					width: parent.width
 					Layout.fillWidth: true
@@ -99,7 +99,7 @@ Popup {
 
 				ComboBox {
 					id: combo2
-					model: PlanModel
+                    model: planModel
 					textRole: "textRole"
 					width: parent.width
 					Layout.fillWidth: true
@@ -124,11 +124,11 @@ Popup {
 
 				onClicked: {
 					if (edit)
-						PlanManager.editItem(popup.currrentIndex, nameField.text,
+                        planManager.editItem(popup.currrentIndex, nameField.text,
 											 check1.checked ? combo1.currentIndex:-1,
 															  check2.checked ? combo2.currentIndex:-1)
 					else
-						PlanManager.addItem(nameField.text,
+                        planManager.addItem(nameField.text,
 											check1.checked ? combo1.currentIndex:-1,
 															 check2.checked ? combo2.currentIndex:-1)
 

@@ -21,8 +21,8 @@ Page {
 
 			onClicked: {
 				confirmed = true
-				Programmer.paint()
-				PlanManager.databseToModel()
+                programmer.paint()
+                planManager.databseToModel()
 			}
 		}
 
@@ -32,7 +32,7 @@ Page {
 
 			onClicked: {
 				confirmed = false
-				PlanManager.clear()
+                planManager.clear()
 			}
 		}
 	}
@@ -58,7 +58,7 @@ Page {
 
 	ListView {
 		id: listview
-		model: PlanModel
+        model: planModel
 		anchors.fill: parent
 		clip: true
 
@@ -72,12 +72,12 @@ Page {
 			onRequestMenu: {
 				menu.x = x-listview.contentX-menu.width
 				menu.y = y-listview.contentY
-				menu.currentIndex = index
+                menu.current_Index = index
 				menu.name = textRole
 				menu.color = colorRole
 				menu.id = idRole
-				menu.rel1 = PlanManager.searchModel(rel1Role)
-				menu.rel2 = PlanManager.searchModel(rel2Role)
+                menu.rel1 = planManager.searchModel(rel1Role)
+                menu.rel2 = planManager.searchModel(rel2Role)
 				menu.open()
 			}
 		}
@@ -89,7 +89,7 @@ Page {
 
 		Menu {
 			id: menu
-			property int currentIndex: -1
+            property int current_Index: -1
 			property string name
 			property int rel1
 			property int rel2
@@ -100,7 +100,7 @@ Page {
 				text: "Edit"
 				onClicked: {
 					aid.edit = true
-					aid.currrentIndex = menu.currentIndex
+                    aid.currrentIndex = menu.current_Index
 					aid.setValues(menu.name, menu.rel1, menu.rel2)
 					aid.open()
 				}
@@ -108,7 +108,7 @@ Page {
 
 			MenuItem {
 				text: "Remove"
-				onClicked: PlanManager.removeItem(menu.currentIndex)
+                onClicked: planManager.removeItem(menu.current_Index)
 			}
 
 			MenuItem {
@@ -117,7 +117,7 @@ Page {
 				onClicked: {
 					cd.currentID = menu.id
 					cd.currentColor = menu.color
-					cd.currentIndex = menu.currentIndex
+                    cd.current_Index = menu.current_Index
 					cd.open()
 				}
 			}

@@ -10,7 +10,7 @@ Popup {
 	width: parent.width*3/4
 	height: parent.height/2
 
-	onOpened: rep.model = PlanManager.getAvailableColors(currentID)
+    onOpened: rep.model = planManager.getAvailableColors(currentID)
 
 	property int currentIndex
 	property int planIndex
@@ -34,7 +34,7 @@ Popup {
 
 						onClicked: {
 							popup.close()
-							Programmer.changeColor(PlanManager.searchPlansIndex(currentID)
+                            programmer.changeColor(PlanManager.searchPlansIndex(currentID)
 												   , parseInt(modelData))
 
 							PlanManager.updateItem(currentIndex)
@@ -64,7 +64,7 @@ Popup {
 			text: "+"
 			width: parent.width
 			onClicked: {
-				Programmer.addColor(PlanManager.searchPlansIndex(currentID));
+                programmer.addColor(PlanManager.searchPlansIndex(currentID));
 				rep.model = PlanManager.getAvailableColors(currentID);
 			}
 		}
